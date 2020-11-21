@@ -9,11 +9,6 @@ class MyStreamListener(tweepy.StreamListener):
     def on_status(self, status):
         out = f"{status.user.name} has tweeted -> {status.text}"
         print(out)
-        result(out)
-
-
-def result(text):
-    return jsonify(text)
 
 
 @app.route("/")
@@ -30,10 +25,6 @@ def index():
 
     # Get API
     api = tweepy.API(auth)
-
-    # search = request.args.get("q")
-
-    # public_tweets = api.user_timeline(search)
 
     # Live Tweets Streaming
     myStreamListener = MyStreamListener()
