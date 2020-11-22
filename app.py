@@ -1,20 +1,16 @@
 from flask import Flask, render_template, jsonify
 import tweepy
 from settings import TwitterSettings
+from services import sqliteServices
+import sqlite3
 
 app = Flask(__name__)
 
-
 class MyStreamListener(tweepy.StreamListener):
     def on_status(self, status):
+        sqliteServices.sqliteService.insert(status.text, status.created_at)
         out = f"{status.user.name} has tweeted -> {status.text}"
         print(out)
-        result(out)
-
-
-def result(text):
-    return jsonify(text)
-
 
 @app.route("/")
 def index():
