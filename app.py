@@ -1,20 +1,52 @@
 from flask import Flask, render_template, jsonify
 import tweepy
 from settings import TwitterSettings
-from services import sqliteServices
-import sqlite3
+import threading as Corou
+import time
+from database import Database
+import json
 
 app = Flask(__name__)
 
+
 class MyStreamListener(tweepy.StreamListener):
+    def __init__(self, time_limit=20):
+        self.start_time = time.time()
+        self.limit = time_limit
+
+        super(MyStreamListener, self).__init__()
+
     def on_status(self, status):
-        sqliteServices.sqliteService.insert(status.text, status.created_at)
-        out = f"{status.user.name} has tweeted -> {status.text}"
-        print(out)
+        if (time.time() - self.start_time) < self.limit:
 
-@app.route("/")
-def index():
+            # Create tweet object
+            forttweet = (
+                status.source,
+                status.user.name,
+                status.text,
+                status.created_at,
+                status.user.location,
+            )
 
+            connection = Database.connect()
+            cursor = connection.cursor()
+            insert_query = "INSERT INTO fortweets VALUES (?, ?, ?, ?, ?)"
+
+            cursor.execute(insert_query, forttweet)
+
+            # Commit Changes
+            connection.commit()
+
+            return True
+        else:
+            # Stop the loop of streaming
+            return False
+
+    def on_error(self, status):
+        raise Exception(f"An error occurred while fetching tweets: {status}")
+
+
+def twitter_instantiation():
     # Get settings instance
     settings = TwitterSettings.get_instance()
 
@@ -27,17 +59,19 @@ def index():
     # Get API
     api = tweepy.API(auth)
 
-    # search = request.args.get("q")
-
-    # public_tweets = api.user_timeline(search)
-
     # Live Tweets Streaming
     myStreamListener = MyStreamListener()
     myStream = tweepy.Stream(auth=api.auth, listener=myStreamListener)
-    myStream.filter(track=["fortnite"])
+    myStream.filter(track=settings.filters)
 
-    return jsonify(myStream)
-    # return render_template("Filtering")
+
+@app.route("/")
+def index():
+
+    stream = Corou.Thread(target=twitter_instantiation)
+    stream.start()
+
+    return render_template("index.html")
 
 
 if __name__ == "__main__":
