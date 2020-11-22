@@ -143,5 +143,5 @@ config/
 # Output 
 out/
 
-# Tests files
-test_tweets_db.py
+# Databases
+databases/

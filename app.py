@@ -4,36 +4,41 @@ from settings import TwitterSettings
 import threading as Corou
 import time
 from database import Database
-from tweet import Tweet
 import json
 
 app = Flask(__name__)
 
 
 class MyStreamListener(tweepy.StreamListener):
-    def __init__(self, output_path, time_limit=20):
+    def __init__(self, time_limit=20):
         self.start_time = time.time()
         self.limit = time_limit
-        self.database = Database.connect()
 
         super(MyStreamListener, self).__init__()
 
     def on_status(self, status):
         if (time.time() - self.start_time) < self.limit:
-            # Create tweet object
-            tweet = Tweet(status.user.name, status.text, status.created_at)
 
-            # Add tweet to database
-            tweet.add(self.database)
+            # Create tweet object
+            forttweet = (
+                status.source,
+                status.user.name,
+                status.text,
+                status.created_at,
+                status.user.location,
+            )
+
+            connection = Database.connect()
+            cursor = connection.cursor()
+            insert_query = "INSERT INTO fortweets VALUES (?, ?, ?, ?, ?)"
+
+            cursor.execute(insert_query, forttweet)
 
             # Commit Changes
-            self.database.commit()
+            connection.commit()
 
             return True
         else:
-            # Close database connection
-            self.database.disconnect()
-
             # Stop the loop of streaming
             return False
 
@@ -55,9 +60,9 @@ def twitter_instantiation():
     api = tweepy.API(auth)
 
     # Live Tweets Streaming
-    myStreamListener = MyStreamListener(settings.output_path)
+    myStreamListener = MyStreamListener()
     myStream = tweepy.Stream(auth=api.auth, listener=myStreamListener)
-    myStream.filter(track=["fortnite"])
+    myStream.filter(track=settings.filters)
 
 
 @app.route("/")

@@ -20,9 +20,6 @@ class TwitterSettings:
                 self.access_token = settings["api"]["access_token"]
                 self.access_token_secret = settings["api"]["access_token_secret"]
 
-                # Output
-                self.output_path = settings["output"]["data_path"]
-
                 # Filters
                 self.filters = settings["filters"]
 
