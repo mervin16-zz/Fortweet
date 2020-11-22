@@ -1,10 +1,9 @@
-from flask import Flask, render_template, jsonify
+from flask import Flask, render_template
 import tweepy
 from settings import TwitterSettings
 import threading as Corou
 import time
 from database import Database
-import json
 
 app = Flask(__name__)
 
