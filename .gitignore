@@ -143,6 +143,5 @@ config/
 # Output 
 out/
 
-
 # Databases
 databases/
