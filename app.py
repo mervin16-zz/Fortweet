@@ -1,7 +1,7 @@
 from flask import Flask
 from flask_restful import Api
 from flask_jwt import JWT
-from tweets import (
+from core.tweets import (
     Tweets,
     TweetSearch,
     AuthorSearch,
@@ -9,8 +9,8 @@ from tweets import (
     LocationSearch,
     SourceSearch,
 )
-from admin import Login, TokenManagement, AdminManage
-from security import authenticate, identity
+from core.admin import Login, TokenManagement, AdminManage
+from services.security import authenticate, identity
 
 # Create a Flask Application
 app = Flask(__name__)

@@ -1,4 +1,4 @@
-from admin import Admin
+from core.admin import Admin
 
 # TODO (Replace static admins to users in database)
 admins = [Admin(1, "mervin", "1234")]
