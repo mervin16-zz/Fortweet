@@ -1,6 +1,5 @@
 import json
 
-
 class TwitterSettings:
     __instance__ = None
 
@@ -34,4 +33,3 @@ class TwitterSettings:
         if not TwitterSettings.__instance__:
             TwitterSettings()
         return TwitterSettings.__instance__
-
