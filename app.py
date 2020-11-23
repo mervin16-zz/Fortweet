@@ -11,6 +11,7 @@ from core.tweets import (
 )
 from core.admin import Login, TokenManagement, AdminManage
 from services.security import authenticate, identity
+from messages import response_errors as Err
 
 # Create a Flask Application
 app = Flask(__name__)
@@ -25,14 +26,7 @@ jwt = JWT(app, authenticate, identity)
 # Error Handlers
 @app.errorhandler(404)  # Handling HTTP 404 NOT FOUND
 def page_not_found(e):
-    return (
-        {
-            "tweets": [],
-            "message": "No tweets found under this identifier.",
-            "success": False,
-        },
-        404,
-    )
+    return Err.ERROR_NOT_FOUND
 
 
 # API Routes

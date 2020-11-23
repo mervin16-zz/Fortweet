@@ -4,6 +4,7 @@ from setup.settings import TwitterSettings
 import threading as Coroutine
 import tweepy
 from services.streamer import FStreamListener
+from messages import response_errors as Err, responses_success as Succ
 
 
 class Tweets(Resource):
@@ -38,12 +39,12 @@ class Tweets(Resource):
                 stream = Coroutine.Thread(target=self.__twitterInstantiation)
                 stream.start()
             else:
-                return ({"message": "Incorrect flag sent", "success": False}, 400)
+                return Err.ERROR_FLAG_INCORRECT
 
         except Exception as e:
-            return ({"message": "Incorrect JSON format", "success": False}, 400)
+            return Err.ERROR_JSON_FORMAT_INCORRECT
 
-        return ({"message": "Live tweets capturing has started", "success": True}, 200)
+        return Succ.SUCCESS_TWEETS_STARTED
 
     # [GET] Get all tweets from database
     def get(self):
@@ -75,7 +76,7 @@ class Tweets(Resource):
 
         connection.close()
 
-        return ({"tweets": tweets, "message": "", "success": True,}, 200)
+        return Succ.SUCCESS_TWEETS_RETURNED(tweets)
 
 
 class TweetSearch(Resource):
@@ -115,7 +116,7 @@ class TweetSearch(Resource):
                 )
             connection.close()
 
-            return ({"tweets": tweets, "message": "", "success": True,}, 200)
+            return Succ.SUCCESS_TWEETS_RETURNED(tweets)
 
 
 class AuthorSearch(Resource):
@@ -155,7 +156,7 @@ class AuthorSearch(Resource):
                 )
             connection.close()
 
-            return ({"tweets": tweets, "message": "", "success": True,}, 200)
+            return Succ.SUCCESS_TWEETS_RETURNED(tweets)
 
 
 class SourceSearch(Resource):
@@ -195,7 +196,7 @@ class SourceSearch(Resource):
                 )
             connection.close()
 
-            return ({"tweets": tweets, "message": "", "success": True,}, 200)
+            return Succ.SUCCESS_TWEETS_RETURNED(tweets)
 
 
 class DateSearch(Resource):
@@ -235,7 +236,7 @@ class DateSearch(Resource):
                 )
             connection.close()
 
-            return ({"tweets": tweets, "message": "", "success": True,}, 200)
+            return Succ.SUCCESS_TWEETS_RETURNED(tweets)
 
 
 class LocationSearch(Resource):
@@ -275,4 +276,4 @@ class LocationSearch(Resource):
                 )
             connection.close()
 
-            return ({"tweets": tweets, "message": "", "success": True,}, 200)
+            return Succ.SUCCESS_TWEETS_RETURNED(tweets)
