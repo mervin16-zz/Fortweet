@@ -20,6 +20,7 @@ class Database:
             """CREATE TABLE IF NOT EXISTS fortweets (
                 source TEXT,
                 author TEXT NOT NULL, 
+                author_pic_url,
                 message TEXT NOT NULL, 
                 time TEXT NOT NULL,
                 location TEXT

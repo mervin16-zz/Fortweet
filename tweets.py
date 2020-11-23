@@ -20,6 +20,7 @@ class MyStreamListener(tweepy.StreamListener):
             forttweet = (
                 status.source,
                 status.user.name,
+                status.user.profile_background_image_url_https,
                 status.text,
                 status.created_at,
                 status.user.location,
@@ -32,7 +33,7 @@ class MyStreamListener(tweepy.StreamListener):
             cursor = connection.cursor()
 
             # Create insert query
-            query = "INSERT INTO fortweets VALUES (?, ?, ?, ?, ?)"
+            query = "INSERT INTO fortweets VALUES (?, ?, ?, ?, ?, ?)"
 
             # Execute teh query
             cursor.execute(query, forttweet)
@@ -109,10 +110,10 @@ class Tweets(Resource):
             tweets.append(
                 {
                     "source": row[0],
-                    "author": row[1],
-                    "tweet": row[2],
-                    "time": row[3],
-                    "location": row[4],
+                    "author": {"name": row[1], "profile": row[2],},
+                    "tweet": row[3],
+                    "time": row[4],
+                    "location": row[5],
                 }
             )
 
@@ -150,13 +151,12 @@ class TweetSearch(Resource):
                 tweets.append(
                     {
                         "source": row[0],
-                        "author": row[1],
-                        "tweet": row[2],
-                        "time": row[3],
-                        "location": row[4],
+                        "author": {"name": row[1], "profile": row[2],},
+                        "tweet": row[3],
+                        "time": row[4],
+                        "location": row[5],
                     }
                 )
-
             connection.close()
 
             return ({"tweets": tweets, "message": "", "success": True,}, 200)
@@ -191,13 +191,12 @@ class AuthorSearch(Resource):
                 tweets.append(
                     {
                         "source": row[0],
-                        "author": row[1],
-                        "tweet": row[2],
-                        "time": row[3],
-                        "location": row[4],
+                        "author": {"name": row[1], "profile": row[2],},
+                        "tweet": row[3],
+                        "time": row[4],
+                        "location": row[5],
                     }
                 )
-
             connection.close()
 
             return ({"tweets": tweets, "message": "", "success": True,}, 200)
@@ -232,13 +231,12 @@ class SourceSearch(Resource):
                 tweets.append(
                     {
                         "source": row[0],
-                        "author": row[1],
-                        "tweet": row[2],
-                        "time": row[3],
-                        "location": row[4],
+                        "author": {"name": row[1], "profile": row[2],},
+                        "tweet": row[3],
+                        "time": row[4],
+                        "location": row[5],
                     }
                 )
-
             connection.close()
 
             return ({"tweets": tweets, "message": "", "success": True,}, 200)
@@ -273,13 +271,12 @@ class DateSearch(Resource):
                 tweets.append(
                     {
                         "source": row[0],
-                        "author": row[1],
-                        "tweet": row[2],
-                        "time": row[3],
-                        "location": row[4],
+                        "author": {"name": row[1], "profile": row[2],},
+                        "tweet": row[3],
+                        "time": row[4],
+                        "location": row[5],
                     }
                 )
-
             connection.close()
 
             return ({"tweets": tweets, "message": "", "success": True,}, 200)
@@ -314,13 +311,12 @@ class LocationSearch(Resource):
                 tweets.append(
                     {
                         "source": row[0],
-                        "author": row[1],
-                        "tweet": row[2],
-                        "time": row[3],
-                        "location": row[4],
+                        "author": {"name": row[1], "profile": row[2],},
+                        "tweet": row[3],
+                        "time": row[4],
+                        "location": row[5],
                     }
                 )
-
             connection.close()
 
             return ({"tweets": tweets, "message": "", "success": True,}, 200)
