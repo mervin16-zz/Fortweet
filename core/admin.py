@@ -10,21 +10,17 @@ class Admin:
         self.password = password
 
 
-class AdminManage(Resource):
-    @jwt_required()
-    def get(self):
-        return {"TEST": "TEST"}
-
-
-class Login(Resource):
+class AdminLogin(Resource):
     # [GET] Login page for the admin
+    @jwt_required()
     def get(self):
         headers = {"Content-Type": "text/html"}
         return Response(HTML("index.html"), 200, headers)
 
 
-class TokenManagement(Resource):
-    # [GET] Tocket Management page
+class AdminManage(Resource):
+    # [GET] Manage admin page
+    @jwt_required()
     def get(self):
         headers = {"Content-Type": "text/html"}
-        return Response(HTML("token_management.html"), 200, headers)
+        return Response(HTML("admin_management.html"), 200, headers)

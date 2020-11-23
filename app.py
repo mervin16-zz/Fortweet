@@ -9,7 +9,7 @@ from core.tweets import (
     LocationSearch,
     SourceSearch,
 )
-from core.admin import Login, TokenManagement, AdminManage
+from core.admin import AdminLogin, AdminManage
 from services.security import authenticate, identity
 from messages import response_errors as Err
 
@@ -37,10 +37,8 @@ api.add_resource(AuthorSearch, "/api/tweets/author")
 api.add_resource(DateSearch, "/api/tweets/date")
 api.add_resource(LocationSearch, "/api/tweets/location")
 
-api.add_resource(AdminManage, "/api/token")
-
-api.add_resource(Login, "/admin/login")
-api.add_resource(TokenManagement, "/admin/tokens")
+api.add_resource(AdminLogin, "/admin/login")
+api.add_resource(AdminManage, "/admin/manage")
 
 if __name__ == "__main__":
     app.run(debug=True)
