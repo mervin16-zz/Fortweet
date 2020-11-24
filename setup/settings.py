@@ -20,8 +20,15 @@ class TwitterSettings:
                 self.access_token = settings["api"]["access_token"]
                 self.access_token_secret = settings["api"]["access_token_secret"]
 
-                # Filters
-                self.filters = settings["filters"]
+                # Streaming
+                self.filters = settings["streaming"]["filters"]
+                self.stream_time = settings["streaming"]["stream_time"]
+
+                # Super Admins
+                self.super_admins = settings["super_admins"]
+
+                # Keys
+                self.jwt_secret_key = settings["key"]["jwt_secret"]
 
             # Set instance to self
             TwitterSettings.__instance__ = self

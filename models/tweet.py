@@ -2,7 +2,7 @@ from setup.database import Database
 
 
 class TweetModel:
-    __TABLE_NAME = "tweets"
+    __TABLE_NAME = "fortweets"
 
     # Get all tweets from database
     @classmethod

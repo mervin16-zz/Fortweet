@@ -12,11 +12,12 @@ from resources.tweets import (
 from resources.admin import AdminLogin, AdminManage
 from services.security import authenticate, identity
 from messages import response_errors as Err
+from setup.settings import TwitterSettings
 
 # Create a Flask Application
 app = Flask(__name__)
 # Set a secret key
-app.secret_key = "mervin"  # TODO("Hide Secret Key")
+app.secret_key = TwitterSettings.get_instance().jwt_secret_key
 app.config["PROPAGATE_EXCEPTIONS"] = True
 # Pass application to Api object
 api = Api(app)

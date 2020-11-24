@@ -20,7 +20,7 @@ _cursor.execute(
 
 # Create the table Fortweets
 _cursor.execute(
-    """CREATE TABLE IF NOT EXISTS tweets (
+    """CREATE TABLE IF NOT EXISTS fortweets (
         source TEXT,
         author TEXT NOT NULL, 
         author_pic_url,
@@ -29,13 +29,6 @@ _cursor.execute(
         location TEXT
     )"""
 )
-
-# Add the default admin TODO(Improve this code)
-admin = ("th3pl4gu3", "th3pl4gu33@gmail.com", "th3pl4gu3")
-# Build query
-query = "INSERT INTO admins VALUES (NULL, ?, ?, ?)"
-# Executre query
-_cursor.execute(query, admin)
 
 _connection.commit()
 

@@ -1,12 +1,13 @@
 import time
 import tweepy
 from setup.database import Database
+from setup.settings import TwitterSettings
 
 
 class FStreamListener(tweepy.StreamListener):
-    def __init__(self, time_limit=10):
+    def __init__(self):
         self.start_time = time.time()
-        self.limit = time_limit
+        self.limit = TwitterSettings.get_instance().stream_time
 
         # Get db connection
         self.connection = Database.connect()
@@ -40,7 +41,7 @@ class FStreamListener(tweepy.StreamListener):
 
             return True
         else:
-            # TODO Remove
+            # TODO Use Logger instead
             print("Live capture has stopped")
 
             # Close the DB connection
