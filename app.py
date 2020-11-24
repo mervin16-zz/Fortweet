@@ -1,7 +1,7 @@
 from flask import Flask
 from flask_restful import Api
 from flask_jwt import JWT
-from core.tweets import (
+from resources.tweets import (
     Tweets,
     TweetSearch,
     AuthorSearch,
@@ -9,7 +9,7 @@ from core.tweets import (
     LocationSearch,
     SourceSearch,
 )
-from core.admin import AdminLogin, AdminManage
+from resources.admin import AdminLogin, AdminManage
 from services.security import authenticate, identity
 from messages import response_errors as Err
 

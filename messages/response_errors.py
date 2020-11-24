@@ -13,3 +13,8 @@ ERROR_JSON_FORMAT_INCORRECT = (
 )
 
 ERROR_FLAG_INCORRECT = ({"message": "Incorrect flag sent", "success": False}, 400)
+
+ERROR_STREAM_RUNNING = (
+    {"message": "Another tweet stream is already running", "success": False},
+    400,
+)

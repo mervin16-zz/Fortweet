@@ -4,9 +4,12 @@ from setup.database import Database
 
 
 class FStreamListener(tweepy.StreamListener):
-    def __init__(self, time_limit=60):
+    def __init__(self, time_limit=10):
         self.start_time = time.time()
         self.limit = time_limit
+
+        # Get db connection
+        self.connection = Database.connect()
 
         super(FStreamListener, self).__init__()
 
@@ -23,11 +26,8 @@ class FStreamListener(tweepy.StreamListener):
                 status.user.location,
             )
 
-            # Get db connection
-            connection = Database.connect()
-
             # Get the cursor
-            cursor = connection.cursor()
+            cursor = self.connection.cursor()
 
             # Create insert query
             query = "INSERT INTO fortweets VALUES (?, ?, ?, ?, ?, ?)"
@@ -36,10 +36,16 @@ class FStreamListener(tweepy.StreamListener):
             cursor.execute(query, forttweet)
 
             # Commit Changes
-            connection.commit()
+            self.connection.commit()
 
             return True
         else:
+            # TODO Remove
+            print("Live capture has stopped")
+
+            # Close the DB connection
+            self.connection.close()
+
             # Stop the loop of streaming
             return False
 

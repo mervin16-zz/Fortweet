@@ -1,53 +1,12 @@
-from flask_restful import Resource, request
 from setup.database import Database
-from setup.settings import TwitterSettings
-import threading as Coroutine
-import tweepy
-from services.streamer import FStreamListener
-from messages import response_errors as Err, responses_success as Succ
 
 
-class Tweets(Resource):
+class TweetModel:
+    __TABLE_NAME = "fortweets"
 
-    # [Private] Twitter configurations
-    def __twitterInstantiation(self):
-        # Get settings instance
-        settings = TwitterSettings.get_instance()
-        # Auths
-        auth = tweepy.OAuthHandler(settings.consumer_key, settings.consumer_secret,)
-        auth.set_access_token(
-            settings.access_token, settings.access_token_secret,
-        )
-        # Get API
-        api = tweepy.API(auth)
-        # Live Tweets Streaming
-        myStreamListener = FStreamListener()
-        myStream = tweepy.Stream(auth=api.auth, listener=myStreamListener)
-        myStream.filter(track=settings.filters)
-
-    # [POST] Post a tweet in database
-    def post(self):
-        # Get json body from post request
-        body = request.get_json()
-
-        # Verify body format
-        try:
-            # Checks data
-            value = body["value_flag"]
-
-            if value == "start_live_tweet_streaming":
-                stream = Coroutine.Thread(target=self.__twitterInstantiation)
-                stream.start()
-            else:
-                return Err.ERROR_FLAG_INCORRECT
-
-        except Exception as e:
-            return Err.ERROR_JSON_FORMAT_INCORRECT
-
-        return Succ.SUCCESS_TWEETS_STARTED
-
-    # [GET] Get all tweets from database
-    def get(self):
+    # Get all tweets from database
+    @classmethod
+    def get_all(cls):
         # Get db connection
         connection = Database.connect()
 
@@ -55,7 +14,7 @@ class Tweets(Resource):
         cursor = connection.cursor()
 
         # Create the query
-        query = "SELECT * FROM fortweets"
+        query = f"SELECT * FROM {cls.__TABLE_NAME}"
 
         # Execute the query
         results = cursor.execute(query)
@@ -75,17 +34,10 @@ class Tweets(Resource):
             )
 
         connection.close()
+        return tweets
 
-        return Succ.SUCCESS_TWEETS_RETURNED(tweets)
-
-
-class TweetSearch(Resource):
-
-    # [GET] Search tweets by keywords
-    def get(self):
-        # Get the query
-        query = request.args["query"]
-
+    @classmethod
+    def search_by_message(cls, query):
         # Check if query is not none
         if query is not None:
 
@@ -96,7 +48,7 @@ class TweetSearch(Resource):
             cursor = connection.cursor()
 
             # Create the query
-            query = f"SELECT * FROM fortweets WHERE message LIKE '%{query}%'"
+            query = f"SELECT * FROM {cls.__TABLE_NAME} WHERE message LIKE '%{query}%'"
 
             # Execute the query
             results = cursor.execute(query)
@@ -116,16 +68,10 @@ class TweetSearch(Resource):
                 )
             connection.close()
 
-            return Succ.SUCCESS_TWEETS_RETURNED(tweets)
+            return tweets
 
-
-class AuthorSearch(Resource):
-
-    # [GET] Search author by keywords
-    def get(self):
-        # Get the query
-        query = request.args["query"]
-
+    @classmethod
+    def search_by_author(cls, query):
         # Check if query is not none
         if query is not None:
 
@@ -136,7 +82,7 @@ class AuthorSearch(Resource):
             cursor = connection.cursor()
 
             # Create the query
-            query = f"SELECT * FROM fortweets WHERE author LIKE '%{query}%'"
+            query = f"SELECT * FROM {cls.__TABLE_NAME} WHERE author LIKE '%{query}%'"
 
             # Execute the query
             results = cursor.execute(query)
@@ -156,16 +102,10 @@ class AuthorSearch(Resource):
                 )
             connection.close()
 
-            return Succ.SUCCESS_TWEETS_RETURNED(tweets)
+            return tweets
 
-
-class SourceSearch(Resource):
-
-    # [GET] Search source by keywords
-    def get(self):
-        # Get the query
-        query = request.args["query"]
-
+    @classmethod
+    def search_by_source(cls, query):
         # Check if query is not none
         if query is not None:
 
@@ -176,7 +116,7 @@ class SourceSearch(Resource):
             cursor = connection.cursor()
 
             # Create the query
-            query = f"SELECT * FROM fortweets WHERE source LIKE '%{query}%'"
+            query = f"SELECT * FROM {cls.__TABLE_NAME} WHERE source LIKE '%{query}%'"
 
             # Execute the query
             results = cursor.execute(query)
@@ -196,16 +136,10 @@ class SourceSearch(Resource):
                 )
             connection.close()
 
-            return Succ.SUCCESS_TWEETS_RETURNED(tweets)
+            return tweets
 
-
-class DateSearch(Resource):
-
-    # [GET] Search date by keywords
-    def get(self):
-        # Get the query
-        query = request.args["query"]
-
+    @classmethod
+    def search_by_date(cls, query):
         # Check if query is not none
         if query is not None:
 
@@ -216,7 +150,7 @@ class DateSearch(Resource):
             cursor = connection.cursor()
 
             # Create the query
-            query = f"SELECT * FROM fortweets WHERE author time '%{query}%'"
+            query = f"SELECT * FROM {cls.__TABLE_NAME} WHERE time LIKE '%{query}%'"
 
             # Execute the query
             results = cursor.execute(query)
@@ -236,16 +170,10 @@ class DateSearch(Resource):
                 )
             connection.close()
 
-            return Succ.SUCCESS_TWEETS_RETURNED(tweets)
+            return tweets
 
-
-class LocationSearch(Resource):
-
-    # [GET] Search location by keywords
-    def get(self):
-        # Get the query
-        query = request.args["query"]
-
+    @classmethod
+    def search_by_location(cls, query):
         # Check if query is not none
         if query is not None:
 
@@ -256,7 +184,7 @@ class LocationSearch(Resource):
             cursor = connection.cursor()
 
             # Create the query
-            query = f"SELECT * FROM fortweets WHERE location LIKE '%{query}%'"
+            query = f"SELECT * FROM {cls.__TABLE_NAME} WHERE location LIKE '%{query}%'"
 
             # Execute the query
             results = cursor.execute(query)
@@ -276,4 +204,4 @@ class LocationSearch(Resource):
                 )
             connection.close()
 
-            return Succ.SUCCESS_TWEETS_RETURNED(tweets)
+            return tweets

@@ -11,22 +11,4 @@ class Database:
 
     @staticmethod
     def connect():
-        connection = sqlite3.connect(Database._database_location)
-        cursor = connection.cursor()
-
-        # create table if it doesn't exists
-        cursor.execute(
-            """CREATE TABLE IF NOT EXISTS fortweets (
-                source TEXT,
-                author TEXT NOT NULL, 
-                author_pic_url,
-                message TEXT NOT NULL, 
-                time TEXT NOT NULL,
-                location TEXT
-            )"""
-        )
-
-        connection.commit()
-
-        return connection
-
+        return sqlite3.connect(Database._database_location)
