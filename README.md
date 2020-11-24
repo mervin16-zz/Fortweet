@@ -1,5 +1,5 @@
-# Fortweet
+# Tweety
 
-Fortweet is an application that fetches tweets from Twitter related to the online Battle Royale game Fortnite.
+Tweety is an API that stream live tweets about specified keywords of your own for a certain amount of time and returns it in JSON requests.
 
 ``` Still Under development ```

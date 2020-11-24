@@ -3,7 +3,7 @@ import sqlite3
 
 class Database:
 
-    _database_location = "databases/fortweets.db"
+    _database_location = "databases/tweety.db"
     __instance__ = None
 
     def __init__(self):

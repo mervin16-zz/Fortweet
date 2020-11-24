@@ -20,7 +20,7 @@ _cursor.execute(
 
 # Create the table Fortweets
 _cursor.execute(
-    """CREATE TABLE IF NOT EXISTS fortweets (
+    """CREATE TABLE IF NOT EXISTS tweets (
         source TEXT,
         author TEXT NOT NULL, 
         author_pic_url,
