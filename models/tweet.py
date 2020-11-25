@@ -1,207 +1,68 @@
-from setup.database import Database
+from setup.database import db
 
 
-class TweetModel:
-    __TABLE_NAME = "fortweets"
+class TweetModel(db.Model):
+    __tablename__ = "fortweets"
 
-    # Get all tweets from database
+    id = db.Column(db.Integer, primary_key=True)
+    source = db.Column(db.String(80))
+    author = db.Column(db.String(80))
+    profile_pic = db.Column(db.String())
+    message = db.Column(db.String())
+    date = db.Column(db.String(80))
+    location = db.Column(db.String(80))
+
+    def __init__(self, source, author, profile_pic, message, date, location):
+        self.source = source
+        self.author = author
+        self.profile_pic = profile_pic
+        self.message = message
+        self.date = date
+        self.location = location
+
+    def json(self):
+        return {
+            "source": self.source,
+            "author": {"name": self.author, "profile": self.profile_pic,},
+            "tweet": self.message,
+            "time": self.date,
+            "location": self.location,
+        }
+
+    def insert(self):
+        db.session.add(self)
+        db.session.commit()
+
     @classmethod
     def get_all(cls):
-        # Get db connection
-        connection = Database.connect()
-
-        # Get the cursor
-        cursor = connection.cursor()
-
-        # Create the query
-        query = f"SELECT * FROM {cls.__TABLE_NAME}"
-
-        # Execute the query
-        results = cursor.execute(query)
-
-        # Iterate through results
-        # Also create a tweets list to append result
-        tweets = []
-        for row in results:
-            tweets.append(
-                {
-                    "source": row[0],
-                    "author": {"name": row[1], "profile": row[2],},
-                    "tweet": row[3],
-                    "time": row[4],
-                    "location": row[5],
-                }
-            )
-
-        connection.close()
-        return tweets
+        return TweetModel.query.all()
 
     @classmethod
     def search_by_message(cls, query):
         # Check if query is not none
         if query is not None:
-
-            # Get db connection
-            connection = Database.connect()
-
-            # Get the cursor
-            cursor = connection.cursor()
-
-            # Create the query
-            query = f"SELECT * FROM {cls.__TABLE_NAME} WHERE message LIKE '%{query}%'"
-
-            # Execute the query
-            results = cursor.execute(query)
-
-            # Iterate through results
-            # Also create a tweets list to append result
-            tweets = []
-            for row in results:
-                tweets.append(
-                    {
-                        "source": row[0],
-                        "author": {"name": row[1], "profile": row[2],},
-                        "tweet": row[3],
-                        "time": row[4],
-                        "location": row[5],
-                    }
-                )
-            connection.close()
-
-            return tweets
+            return TweetModel.query.filter(TweetModel.message.like(f"%{query}%")).all()
 
     @classmethod
     def search_by_author(cls, query):
         # Check if query is not none
         if query is not None:
-
-            # Get db connection
-            connection = Database.connect()
-
-            # Get the cursor
-            cursor = connection.cursor()
-
-            # Create the query
-            query = f"SELECT * FROM {cls.__TABLE_NAME} WHERE author LIKE '%{query}%'"
-
-            # Execute the query
-            results = cursor.execute(query)
-
-            # Iterate through results
-            # Also create a tweets list to append result
-            tweets = []
-            for row in results:
-                tweets.append(
-                    {
-                        "source": row[0],
-                        "author": {"name": row[1], "profile": row[2],},
-                        "tweet": row[3],
-                        "time": row[4],
-                        "location": row[5],
-                    }
-                )
-            connection.close()
-
-            return tweets
+            return TweetModel.query.filter(TweetModel.author.like(f"%{query}%")).all()
 
     @classmethod
     def search_by_source(cls, query):
         # Check if query is not none
         if query is not None:
-
-            # Get db connection
-            connection = Database.connect()
-
-            # Get the cursor
-            cursor = connection.cursor()
-
-            # Create the query
-            query = f"SELECT * FROM {cls.__TABLE_NAME} WHERE source LIKE '%{query}%'"
-
-            # Execute the query
-            results = cursor.execute(query)
-
-            # Iterate through results
-            # Also create a tweets list to append result
-            tweets = []
-            for row in results:
-                tweets.append(
-                    {
-                        "source": row[0],
-                        "author": {"name": row[1], "profile": row[2],},
-                        "tweet": row[3],
-                        "time": row[4],
-                        "location": row[5],
-                    }
-                )
-            connection.close()
-
-            return tweets
+            return TweetModel.query.filter(TweetModel.source.like(f"%{query}%")).all()
 
     @classmethod
     def search_by_date(cls, query):
         # Check if query is not none
         if query is not None:
-
-            # Get db connection
-            connection = Database.connect()
-
-            # Get the cursor
-            cursor = connection.cursor()
-
-            # Create the query
-            query = f"SELECT * FROM {cls.__TABLE_NAME} WHERE time LIKE '%{query}%'"
-
-            # Execute the query
-            results = cursor.execute(query)
-
-            # Iterate through results
-            # Also create a tweets list to append result
-            tweets = []
-            for row in results:
-                tweets.append(
-                    {
-                        "source": row[0],
-                        "author": {"name": row[1], "profile": row[2],},
-                        "tweet": row[3],
-                        "time": row[4],
-                        "location": row[5],
-                    }
-                )
-            connection.close()
-
-            return tweets
+            return TweetModel.query.filter(TweetModel.date.like(f"%{query}%")).all()
 
     @classmethod
     def search_by_location(cls, query):
         # Check if query is not none
         if query is not None:
-
-            # Get db connection
-            connection = Database.connect()
-
-            # Get the cursor
-            cursor = connection.cursor()
-
-            # Create the query
-            query = f"SELECT * FROM {cls.__TABLE_NAME} WHERE location LIKE '%{query}%'"
-
-            # Execute the query
-            results = cursor.execute(query)
-
-            # Iterate through results
-            # Also create a tweets list to append result
-            tweets = []
-            for row in results:
-                tweets.append(
-                    {
-                        "source": row[0],
-                        "author": {"name": row[1], "profile": row[2],},
-                        "tweet": row[3],
-                        "time": row[4],
-                        "location": row[5],
-                    }
-                )
-            connection.close()
-
-            return tweets
+            return TweetModel.query.filter(TweetModel.location.like(f"%{query}%")).all()

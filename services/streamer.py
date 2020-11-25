@@ -1,7 +1,7 @@
 import time
 import tweepy
-from setup.database import Database
 from setup.settings import TwitterSettings
+from models.tweet import TweetModel
 
 
 class FStreamListener(tweepy.StreamListener):
@@ -9,16 +9,13 @@ class FStreamListener(tweepy.StreamListener):
         self.start_time = time.time()
         self.limit = TwitterSettings.get_instance().stream_time
 
-        # Get db connection
-        self.connection = Database.connect()
-
         super(FStreamListener, self).__init__()
 
     def on_status(self, status):
         if (time.time() - self.start_time) < self.limit:
 
             # Create tweet object
-            forttweet = (
+            forttweet = TweetModel(
                 status.source,
                 status.user.name,
                 status.user.profile_background_image_url_https,
@@ -27,25 +24,12 @@ class FStreamListener(tweepy.StreamListener):
                 status.user.location,
             )
 
-            # Get the cursor
-            cursor = self.connection.cursor()
-
-            # Create insert query
-            query = "INSERT INTO fortweets VALUES (?, ?, ?, ?, ?, ?)"
-
-            # Execute teh query
-            cursor.execute(query, forttweet)
-
-            # Commit Changes
-            self.connection.commit()
+            forttweet.insert()
 
             return True
         else:
             # TODO Use Logger instead
             print("Live capture has stopped")
-
-            # Close the DB connection
-            self.connection.close()
 
             # Stop the loop of streaming
             return False

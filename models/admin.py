@@ -1,43 +1,23 @@
-from setup.database import Database
+from setup.database import db
 
 
-class AdminModel:
-    __TABLE_NAME = "admins"
+class AdminModel(db.Model):
+    __tablename__ = "admins"
 
-    def __init__(self, _id, email, username, password):
-        self.id = _id
+    id = db.Column(db.Integer, primary_key=True)
+    email = db.Column(db.String(80))
+    username = db.Column(db.String(80))
+    password = db.Column(db.String(80))
+
+    def __init__(self, email, username, password):
         self.email = email
         self.username = username
         self.password = password
 
     @classmethod
     def find_by_username(cls, username):
-        connection = Database.connect()
-        cursor = connection.cursor()
-
-        query = "SELECT * FROM {table} WHERE username=?".format(table=cls.__TABLE_NAME)
-        result = cursor.execute(query, (username,))
-        row = result.fetchone()
-        if row:
-            admin = cls(*row)
-        else:
-            admin = None
-
-        connection.close()
-        return admin
+        return AdminModel.query.filter_by(username=username).first()
 
     @classmethod
     def find_by_id(cls, _id):
-        connection = Database.connect()
-        cursor = connection.cursor()
-
-        query = "SELECT * FROM {table} WHERE id=?".format(table=cls.__TABLE_NAME)
-        result = cursor.execute(query, (_id,))
-        row = result.fetchone()
-        if row:
-            admin = cls(*row)
-        else:
-            admin = None
-
-        connection.close()
-        return admin
+        return AdminModel.query.filter_by(id=_id).first()

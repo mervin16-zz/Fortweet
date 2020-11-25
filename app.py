@@ -13,18 +13,34 @@ from resources.admin import AdminLogin, AdminManage
 from services.security import authenticate, identity
 from messages import response_errors as Err
 from setup.settings import TwitterSettings
+from setup.database import db
+from models.admin import AdminModel
 
 # Create a Flask Application
 app = Flask(__name__)
-# Set a secret key
-app.secret_key = TwitterSettings.get_instance().jwt_secret_key
+
+# Flask configurations
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///databases/fortweets.db"
+app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.config["PROPAGATE_EXCEPTIONS"] = True
-# Pass application to Api object
+app.secret_key = TwitterSettings.get_instance().jwt_secret_key
 api = Api(app)
-# Initialize Jwt object
+
+# SQLAlchemy configurations
+db.app = app
+db.init_app(app)
+db.create_all()
+
+# JWT Configurations
 jwt = JWT(app, authenticate, identity)
 
-# Error Handlers
+# Creates default admins and insert in db
+for admin in TwitterSettings.get_instance().super_admins:
+    admin = AdminModel(admin["email"], admin["username"], admin["password"])
+    db.session.add(admin)
+    db.session.commit()
+
+# Error handlers
 @app.errorhandler(404)  # Handling HTTP 404 NOT FOUND
 def page_not_found(e):
     return Err.ERROR_NOT_FOUND
@@ -41,6 +57,7 @@ api.add_resource(LocationSearch, "/api/tweets/location")
 api.add_resource(AdminLogin, "/admin/login")
 api.add_resource(AdminManage, "/admin/manage")
 
+# Start the app
 if __name__ == "__main__":
     app.run(debug=True)
 

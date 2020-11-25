@@ -1,7 +1,6 @@
 import threading
 from flask_restful import Resource, request
 from flask_jwt import jwt_required
-from setup.database import Database
 from setup.settings import TwitterSettings
 import threading as Coroutine
 import tweepy
@@ -61,7 +60,7 @@ class Tweets(Resource):
     # [GET] Get all tweets from database
     def get(self):
         tweets = TweetModel.get_all()
-        return Succ.SUCCESS_TWEETS_RETURNED(tweets)
+        return Succ.SUCCESS_TWEETS_RETURNED(list(map(lambda x: x.json(), tweets)))
 
 
 class TweetSearch(Resource):
@@ -71,7 +70,7 @@ class TweetSearch(Resource):
         # Get the query
         query = request.args["query"]
         tweets = TweetModel.search_by_message(query)
-        return Succ.SUCCESS_TWEETS_RETURNED(tweets)
+        return Succ.SUCCESS_TWEETS_RETURNED(list(map(lambda x: x.json(), tweets)))
 
 
 class AuthorSearch(Resource):
@@ -81,7 +80,7 @@ class AuthorSearch(Resource):
         # Get the query
         query = request.args["query"]
         tweets = TweetModel.search_by_author(query)
-        return Succ.SUCCESS_TWEETS_RETURNED(tweets)
+        return Succ.SUCCESS_TWEETS_RETURNED(list(map(lambda x: x.json(), tweets)))
 
 
 class SourceSearch(Resource):
@@ -91,7 +90,7 @@ class SourceSearch(Resource):
         # Get the query
         query = request.args["query"]
         tweets = TweetModel.search_by_source(query)
-        return Succ.SUCCESS_TWEETS_RETURNED(tweets)
+        return Succ.SUCCESS_TWEETS_RETURNED(list(map(lambda x: x.json(), tweets)))
 
 
 class DateSearch(Resource):
@@ -101,7 +100,7 @@ class DateSearch(Resource):
         # Get the query
         query = request.args["query"]
         tweets = TweetModel.search_by_date(query)
-        return Succ.SUCCESS_TWEETS_RETURNED(tweets)
+        return Succ.SUCCESS_TWEETS_RETURNED(list(map(lambda x: x.json(), tweets)))
 
 
 class LocationSearch(Resource):
@@ -111,4 +110,4 @@ class LocationSearch(Resource):
         # Get the query
         query = request.args["query"]
         tweets = TweetModel.search_by_location(query)
-        return Succ.SUCCESS_TWEETS_RETURNED(tweets)
+        return Succ.SUCCESS_TWEETS_RETURNED(list(map(lambda x: x.json(), tweets)))
