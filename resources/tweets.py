@@ -40,14 +40,10 @@ class Tweets(Resource):
 
             if value == "start_live_tweet_streaming":
 
-                thread_count = len(threading.enumerate())
-
-                if thread_count > 2:
-                    # Another thread is already running
-                    return Err.ERROR_STREAM_RUNNING
-                else:
-                    stream = Coroutine.Thread(target=self.__twitterInstantiation)
-                    stream.start()
+                # TODO (Improve Threading)
+                stream = Coroutine.Thread(target=self.__twitterInstantiation)
+                stream.start()
+                stream.join()
 
             else:
                 return Err.ERROR_FLAG_INCORRECT
