@@ -1,5 +1,5 @@
 from flask_restful import Resource, request
-from flask_jwt import jwt_required
+from flask_jwt_extended import jwt_required
 from setup.settings import TwitterSettings
 from services.streamer import FStreamListener
 from messages import response_errors as Err, responses_success as Succ
@@ -29,7 +29,7 @@ class Tweets(Resource):
         myStream.filter(track=settings.filters)
 
     # [POST] Post a tweet in database
-    @jwt_required()
+    @jwt_required
     def post(self):
         # Get json body from post request
         body = request.get_json()

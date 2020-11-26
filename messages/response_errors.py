@@ -18,3 +18,5 @@ ERROR_STREAM_RUNNING = (
     {"message": "Another tweet stream is already running", "success": False},
     400,
 )
+
+ERROR_INVALID_CREDS = ({"message": "Invalid credentials", "success": False}, 401)

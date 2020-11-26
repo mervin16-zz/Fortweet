@@ -1,6 +1,6 @@
 from flask import Flask
 from flask_restful import Api
-from flask_jwt import JWT
+from flask_jwt_extended import JWTManager
 from resources.tweets import (
     Tweets,
     TweetSearch,
@@ -10,7 +10,6 @@ from resources.tweets import (
     SourceSearch,
 )
 from resources.admin import AdminLogin, AdminManage
-from services.security import authenticate, identity
 from messages import response_errors as Err
 from setup.settings import TwitterSettings
 from setup.database import db
@@ -35,7 +34,7 @@ db.init_app(app)
 db.create_all()
 
 # JWT Configurations
-jwt = JWT(app, authenticate, identity)
+jwt = JWTManager(app)
 
 # Creates default admins and insert in db
 for admin in TwitterSettings.get_instance().super_admins:
@@ -56,7 +55,7 @@ api.add_resource(AuthorSearch, "/api/tweets/author")
 api.add_resource(DateSearch, "/api/tweets/date")
 api.add_resource(LocationSearch, "/api/tweets/location")
 
-api.add_resource(AdminLogin, "/admin/login")
+api.add_resource(AdminLogin, "/fortauth")
 api.add_resource(AdminManage, "/admin/manage")
 
 # Start the app
