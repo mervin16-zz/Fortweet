@@ -30,10 +30,13 @@ jobs:
           flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
           # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
           flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
-      - name: Add Config File
+      - name: Add Necessary Folders & Files
         run: |
           mkdir config
+          mkdir databases
           touch config/settings.json
+      - name: Add JSON in Config File
+        run: |
           cat > config/settings.json << 'EOF'
           {"api":{"consumer_key":"unrel","consumer_secret":"unrel","access_token":"unrel-unrel","access_token_secret":"unrel"},"streaming":{"filters":["fortnite"],"stream_time":5},"super_admins":[{"username":"admin","password":"1234","email":"th3pl4gu33@gmail.com"}],"key":{"jwt_secret":"unrel"},"database":{"path":"databases/fortweets.db"}}
           EOF
