@@ -1,12 +1,13 @@
-import threading
 from flask_restful import Resource, request
 from flask_jwt import jwt_required
 from setup.settings import TwitterSettings
-import threading as Coroutine
-import tweepy
 from services.streamer import FStreamListener
 from messages import response_errors as Err, responses_success as Succ
 from models.tweet import TweetModel
+from models.enums import TweetSearch as SearchEnum
+import threading as Coroutine
+import tweepy
+from helpers.utils import tweets_to_list as Transform
 
 
 class Tweets(Resource):
@@ -56,54 +57,44 @@ class Tweets(Resource):
     # [GET] Get all tweets from database
     def get(self):
         tweets = TweetModel.get_all()
-        return Succ.SUCCESS_TWEETS_RETURNED(list(map(lambda x: x.json(), tweets)))
+        return Succ.SUCCESS_TWEETS_RETURNED(Transform(tweets))
 
 
 class TweetSearch(Resource):
 
     # [GET] Search tweets by keywords
     def get(self):
-        # Get the query
-        query = request.args["query"]
-        tweets = TweetModel.search_by_message(query)
-        return Succ.SUCCESS_TWEETS_RETURNED(list(map(lambda x: x.json(), tweets)))
+        tweets = TweetModel.search(request.args["query"], SearchEnum.Message)
+        return Succ.SUCCESS_TWEETS_RETURNED(Transform(tweets))
 
 
 class AuthorSearch(Resource):
 
     # [GET] Search author by keywords
     def get(self):
-        # Get the query
-        query = request.args["query"]
-        tweets = TweetModel.search_by_author(query)
-        return Succ.SUCCESS_TWEETS_RETURNED(list(map(lambda x: x.json(), tweets)))
+        tweets = TweetModel.search(request.args["query"], SearchEnum.Author)
+        return Succ.SUCCESS_TWEETS_RETURNED(Transform(tweets))
 
 
 class SourceSearch(Resource):
 
     # [GET] Search source by keywords
     def get(self):
-        # Get the query
-        query = request.args["query"]
-        tweets = TweetModel.search_by_source(query)
-        return Succ.SUCCESS_TWEETS_RETURNED(list(map(lambda x: x.json(), tweets)))
+        tweets = TweetModel.search(request.args["query"], SearchEnum.Source)
+        return Succ.SUCCESS_TWEETS_RETURNED(Transform(tweets))
 
 
 class DateSearch(Resource):
 
     # [GET] Search date by keywords
     def get(self):
-        # Get the query
-        query = request.args["query"]
-        tweets = TweetModel.search_by_date(query)
-        return Succ.SUCCESS_TWEETS_RETURNED(list(map(lambda x: x.json(), tweets)))
+        tweets = TweetModel.search(request.args["query"], SearchEnum.Date)
+        return Succ.SUCCESS_TWEETS_RETURNED(Transform(tweets))
 
 
 class LocationSearch(Resource):
 
     # [GET] Search location by keywords
     def get(self):
-        # Get the query
-        query = request.args["query"]
-        tweets = TweetModel.search_by_location(query)
-        return Succ.SUCCESS_TWEETS_RETURNED(list(map(lambda x: x.json(), tweets)))
+        tweets = TweetModel.search(request.args["query"], SearchEnum.Location)
+        return Succ.SUCCESS_TWEETS_RETURNED(Transform(tweets))

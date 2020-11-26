@@ -1,4 +1,6 @@
 from setup.database import db
+from models.enums import TweetSearch
+from services.logger import get_logger as Logger
 
 
 class TweetModel(db.Model):
@@ -33,36 +35,28 @@ class TweetModel(db.Model):
         db.session.add(self)
         db.session.commit()
 
-    @classmethod
-    def get_all(cls):
+    @staticmethod
+    def get_all():
         return TweetModel.query.all()
 
-    @classmethod
-    def search_by_message(cls, query):
-        # Check if query is not none
-        if query is not None:
-            return TweetModel.query.filter(TweetModel.message.like(f"%{query}%")).all()
+    @staticmethod
+    def search(query, search_enum):
 
-    @classmethod
-    def search_by_author(cls, query):
         # Check if query is not none
         if query is not None:
-            return TweetModel.query.filter(TweetModel.author.like(f"%{query}%")).all()
 
-    @classmethod
-    def search_by_source(cls, query):
-        # Check if query is not none
-        if query is not None:
-            return TweetModel.query.filter(TweetModel.source.like(f"%{query}%")).all()
+            if search_enum == TweetSearch.Message:
+                filter = TweetModel.message.like(f"%{query}%")
+            elif search_enum == TweetSearch.Author:
+                filter = TweetModel.author.like(f"%{query}%")
+            elif search_enum == TweetSearch.Source:
+                filter = TweetModel.source.like(f"%{query}%")
+            elif search_enum == TweetSearch.Date:
+                filter = TweetModel.date.like(f"%{query}%")
+            elif search_enum == TweetSearch.Location:
+                filter = TweetModel.location.like(f"%{query}%")
+            else:
+                Logger().debug("An internal error occurred while filtering data")
+                raise Exception("An internal error occured while filtering data.")
 
-    @classmethod
-    def search_by_date(cls, query):
-        # Check if query is not none
-        if query is not None:
-            return TweetModel.query.filter(TweetModel.date.like(f"%{query}%")).all()
-
-    @classmethod
-    def search_by_location(cls, query):
-        # Check if query is not none
-        if query is not None:
-            return TweetModel.query.filter(TweetModel.location.like(f"%{query}%")).all()
+            return TweetModel.query.filter(filter).all()

@@ -2,12 +2,15 @@ import time
 import tweepy
 from setup.settings import TwitterSettings
 from models.tweet import TweetModel
+from services.logger import get_logger as Logger
 
 
 class FStreamListener(tweepy.StreamListener):
     def __init__(self):
         self.start_time = time.time()
         self.limit = TwitterSettings.get_instance().stream_time
+
+        Logger().debug("Live capture has started")
 
         super(FStreamListener, self).__init__()
 
@@ -28,11 +31,11 @@ class FStreamListener(tweepy.StreamListener):
 
             return True
         else:
-            # TODO Use Logger instead
-            print("Live capture has stopped")
+            Logger().debug("Live capture has ended")
 
             # Stop the loop of streaming
             return False
 
     def on_error(self, status):
+        Logger().debug(f"An error occurred while fetching tweets: {status}")
         raise Exception(f"An error occurred while fetching tweets: {status}")
