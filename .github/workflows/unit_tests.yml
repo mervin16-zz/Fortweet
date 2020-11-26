@@ -21,7 +21,7 @@ jobs:
         run: |
           mkdir config
           touch config/settings.json
-          cat > config/settings.json < EOF
+          cat > config/settings.json << 'EOF'
           {"api":{"consumer_key":"unrel","consumer_secret":"unrel","access_token":"unrel-unrel","access_token_secret":"unrel"},"streaming":{"filters":["fortnite"],"stream_time":5},"super_admins":[{"username":"admin","password":"1234","email":"th3pl4gu33@gmail.com"}],"key":{"jwt_secret":"unrel"},"database":{"path":"databases/fortweets.db"}}
           EOF
       - name: Test with Pytest
