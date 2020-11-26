@@ -31,6 +31,9 @@ class TwitterSettings:
                 # Keys
                 self.jwt_secret_key = settings["key"]["jwt_secret"]
 
+                # Database
+                self.database_path = settings["database"]["path"]
+
             # Set instance to self
             TwitterSettings.__instance__ = self
         else:

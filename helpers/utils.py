@@ -1,8 +1,14 @@
 import logging
+import hashlib
+
+
+def hash(message):
+    if message is not None and message != "":
+        return hashlib.sha256(message.encode("utf-8")).hexdigest()
 
 
 def tweets_to_list(tweets):
-    return list(map(lambda x: x.json(), tweets))
+    return [x.json() for x in tweets]
 
 
 def create_logger(path):

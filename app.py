@@ -15,12 +15,15 @@ from messages import response_errors as Err
 from setup.settings import TwitterSettings
 from setup.database import db
 from models.admin import AdminModel
+from helpers.utils import hash
 
 # Create a Flask Application
 app = Flask(__name__)
 
 # Flask configurations
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///databases/fortweets.db"
+app.config[
+    "SQLALCHEMY_DATABASE_URI"
+] = f"sqlite:///{TwitterSettings.get_instance().database_path}"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.config["PROPAGATE_EXCEPTIONS"] = True
 app.secret_key = TwitterSettings.get_instance().jwt_secret_key
@@ -36,9 +39,8 @@ jwt = JWT(app, authenticate, identity)
 
 # Creates default admins and insert in db
 for admin in TwitterSettings.get_instance().super_admins:
-    admin = AdminModel(admin["email"], admin["username"], admin["password"])
-    db.session.add(admin)
-    db.session.commit()
+    admin = AdminModel(admin["email"], admin["username"], hash(admin["password"]))
+    admin.insert()
 
 # Error handlers
 @app.errorhandler(404)  # Handling HTTP 404 NOT FOUND

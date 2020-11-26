@@ -21,3 +21,9 @@ class AdminModel(db.Model):
     @classmethod
     def find_by_id(cls, _id):
         return AdminModel.query.filter_by(id=_id).first()
+
+    def insert(self):
+        admin = self.find_by_username(self.username)
+        if admin is None:
+            db.session.add(self)
+            db.session.commit()
