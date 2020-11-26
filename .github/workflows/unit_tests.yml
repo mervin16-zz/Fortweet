@@ -17,10 +17,13 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-      - name: Add Config File
+      - name: Add Necessary Folders & Files
         run: |
           mkdir config
+          mkdir databases
           touch config/settings.json
+      - name: Add JSON in Config File
+        run: |
           cat > config/settings.json << 'EOF'
           {"api":{"consumer_key":"unrel","consumer_secret":"unrel","access_token":"unrel-unrel","access_token_secret":"unrel"},"streaming":{"filters":["fortnite"],"stream_time":5},"super_admins":[{"username":"admin","password":"1234","email":"th3pl4gu33@gmail.com"}],"key":{"jwt_secret":"unrel"},"database":{"path":"databases/fortweets.db"}}
           EOF
