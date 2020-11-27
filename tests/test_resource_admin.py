@@ -150,4 +150,4 @@ class AdminResourceTests(unittest.TestCase):
             result_json["msg"],
             "Bad Authorization header. Expected value 'Bearer <JWT>'",
         )
-        self.assertEqual(result.status_code, 401)
+        self.assertEqual(result.status_code, 422)
