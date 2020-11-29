@@ -7,7 +7,7 @@ from flask_jwt_extended import JWTManager
 
 def create_app():
     # Create a Flask Application
-    app = Flask(__name__, template_folder="../templates")
+    app = Flask(__name__, template_folder="../templates", static_folder="../static")
 
     # Flask configurations
     app.config[

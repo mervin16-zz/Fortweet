@@ -7,7 +7,13 @@ from resources.tweets import (
     LocationSearch,
     SourceSearch,
 )
-from resources.admin import AdminLogin, AdminManage
+from resources.admin import (
+    AdminLogin,
+    AdminDashboard,
+    AdminAnalysis,
+    AdminManage,
+    AdminSettings,
+)
 from messages import response_errors as Err
 from setup.settings import TwitterSettings
 from models.admin import AdminModel
@@ -36,9 +42,12 @@ api.add_resource(DateSearch, "/api/tweets/date")
 api.add_resource(LocationSearch, "/api/tweets/location")
 
 api.add_resource(AdminLogin, "/fortauth")
-api.add_resource(AdminManage, "/admin/manage")
+api.add_resource(AdminDashboard, "/admin/dashboard")
+api.add_resource(AdminAnalysis, "/admin/analysis")
+api.add_resource(AdminManage, "/admin/admins")
+api.add_resource(AdminSettings, "/admin/settings")
 
 # Start the app
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", debug=False)
+    app.run(host="0.0.0.0", debug=True)
 

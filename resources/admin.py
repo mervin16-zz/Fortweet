@@ -38,9 +38,37 @@ class AdminLogin(Resource):
         return Err.ERROR_INVALID_CREDS
 
 
-class AdminManage(Resource):
-    # [GET] Manage admin page
-    @jwt_required
+class AdminDashboard(Resource):
+    # [GET] Dashboard page
+    # @jwt_required
+    # TODO("Enable auth here")
     def get(self):
         headers = {"Content-Type": "text/html"}
-        return Response(HTML("admin_management.html"), 200, headers)
+        return Response(HTML("admin/dashboard.html"), 200, headers)
+
+
+class AdminAnalysis(Resource):
+    # [GET] Manage analysis page
+    # @jwt_required
+    # TODO("Enable auth here")
+    def get(self):
+        headers = {"Content-Type": "text/html"}
+        return Response(HTML("admin/analysis.html"), 200, headers)
+
+
+class AdminManage(Resource):
+    # [GET] Manage admins page
+    # @jwt_required
+    # TODO("Enable auth here")
+    def get(self):
+        headers = {"Content-Type": "text/html"}
+        return Response(HTML("admin/admins.html"), 200, headers)
+
+
+class AdminSettings(Resource):
+    # [GET] Manage admin settings page
+    # @jwt_required
+    # TODO("Enable auth here")
+    def get(self):
+        headers = {"Content-Type": "text/html"}
+        return Response(HTML("admin/settings.html"), 200, headers)

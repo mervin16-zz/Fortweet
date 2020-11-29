@@ -8,6 +8,7 @@ from models.enums import TweetSearch as SearchEnum
 import threading as Coroutine
 import tweepy
 from helpers.utils import tweets_to_list as Transform
+from messages import constants as Const
 
 
 class Tweets(Resource):
@@ -41,10 +42,14 @@ class Tweets(Resource):
 
             if value == "start_live_tweet_streaming":
 
-                # TODO (Improve Threading)
+                for coro in Coroutine.enumerate():
+                    print(coro.name)
+                    if coro.name == Const.FLAG_TWEETS_LIVE_CAPTURE:
+                        return Err.ERROR_STREAM_RUNNING
+
                 stream = Coroutine.Thread(target=self.__twitterInstantiation)
+                stream.setName(Const.FLAG_TWEETS_LIVE_CAPTURE)
                 stream.start()
-                stream.join()
 
             else:
                 return Err.ERROR_FLAG_INCORRECT
