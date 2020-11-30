@@ -1,5 +1,5 @@
-from app import app
 import unittest
+from app.app import app
 
 
 class TweetsResourceTests(unittest.TestCase):

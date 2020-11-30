@@ -1,5 +1,5 @@
 import unittest
-from helpers.utils import hash
+from app.helpers.utils import hash
 
 
 class TestUtils(unittest.TestCase):

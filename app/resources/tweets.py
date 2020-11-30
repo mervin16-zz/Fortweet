@@ -1,14 +1,14 @@
 from flask_restful import Resource, request
 from flask_jwt_extended import jwt_required
-from setup.settings import TwitterSettings
-from services.streamer import FStreamListener
-from messages import response_errors as Err, responses_success as Succ
-from models.tweet import TweetModel
-from models.enums import TweetSearch as SearchEnum
 import threading as Coroutine
 import tweepy
-from helpers.utils import tweets_to_list as Transform
-from messages import constants as Const
+from app.helpers.utils import tweets_to_list as Transform
+from app.messages import constants as Const
+from app.setup.settings import TwitterSettings
+from app.services.streamer import FStreamListener
+from app.messages import response_errors as Err, responses_success as Succ
+from app.models.tweet import TweetModel
+from app.models.enums import TweetSearch as SearchEnum
 
 
 class Tweets(Resource):

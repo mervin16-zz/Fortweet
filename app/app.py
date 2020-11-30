@@ -1,5 +1,5 @@
 from flask_jwt_extended import JWTManager
-from resources.tweets import (
+from app.resources.tweets import (
     Tweets,
     TweetSearch,
     AuthorSearch,
@@ -7,7 +7,7 @@ from resources.tweets import (
     LocationSearch,
     SourceSearch,
 )
-from resources.admin import (
+from app.resources.admin import (
     AdminLogin,
     AdminDashboard,
     AdminAnalysis,
@@ -15,11 +15,11 @@ from resources.admin import (
     AdminRemove,
     AdminSettings,
 )
-from messages import response_errors as Err
-from setup.settings import TwitterSettings
-from models.admin import AdminModel
-from helpers.utils import hash
-from setup.app_config import create_app
+from app.messages import response_errors as Err
+from app.setup.settings import TwitterSettings
+from app.models.admin import AdminModel
+from app.helpers.utils import hash
+from app.setup.app_config import create_app
 
 app, api, jwt = create_app()
 

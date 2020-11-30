@@ -1,8 +1,8 @@
 import time
 import tweepy
-from setup.settings import TwitterSettings
-from models.tweet import TweetModel
-from services.logger import get_logger as Logger
+from app.setup.settings import TwitterSettings
+from app.models.tweet import TweetModel
+from app.services.logger import get_logger as Logger
 
 
 class FStreamListener(tweepy.StreamListener):

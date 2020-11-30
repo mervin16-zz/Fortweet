@@ -1,5 +1,5 @@
 import json
-from services.logger import get_logger as Logger
+from app.services.logger import get_logger as Logger
 
 
 class TwitterSettings:

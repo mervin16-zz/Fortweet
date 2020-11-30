@@ -1,8 +1,8 @@
-from setup.database import db
+from flask_jwt_extended import JWTManager
 from flask import Flask
 from flask_restful import Api
-from setup.settings import TwitterSettings
-from flask_jwt_extended import JWTManager
+from app.setup.settings import TwitterSettings
+from app.setup.database import db
 
 
 def create_app():

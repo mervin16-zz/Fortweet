@@ -2,10 +2,10 @@ from flask import render_template as HTML, make_response as Response
 from flask_jwt_extended.utils import create_refresh_token, create_access_token
 from flask_jwt_extended import jwt_required
 from flask_restful import Resource, reqparse
-from models.admin import AdminModel
-from helpers.utils import hash
-from messages import response_errors as Err
-from messages import responses_success as Succ
+from app.models.admin import AdminModel
+from app.helpers.utils import hash
+from app.messages import response_errors as Err
+from app.messages import responses_success as Succ
 
 
 class AdminLogin(Resource):

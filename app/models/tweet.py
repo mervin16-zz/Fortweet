@@ -1,6 +1,6 @@
-from setup.database import db
-from models.enums import TweetSearch
-from services.logger import get_logger as Logger
+from app.setup.database import db
+from app.models.enums import TweetSearch
+from app.services.logger import get_logger as Logger
 
 
 class TweetModel(db.Model):

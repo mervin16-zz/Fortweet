@@ -1,4 +1,4 @@
-from setup.database import db
+from app.setup.database import db
 
 
 class AdminModel(db.Model):

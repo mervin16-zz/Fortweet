@@ -1,6 +1,6 @@
 import unittest
 import json
-from app import app
+from app.app import app
 
 
 class AdminResourceTests(unittest.TestCase):
