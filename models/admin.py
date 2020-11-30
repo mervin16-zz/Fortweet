@@ -22,6 +22,10 @@ class AdminModel(db.Model):
     def find_by_id(cls, _id):
         return AdminModel.query.filter_by(id=_id).first()
 
+    @staticmethod
+    def get_all():
+        return AdminModel.query.all()
+
     def insert(self):
         admin = self.find_by_username(self.username)
         if admin is None:

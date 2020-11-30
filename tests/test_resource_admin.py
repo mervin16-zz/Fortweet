@@ -121,33 +121,3 @@ class AdminResourceTests(unittest.TestCase):
         self.assertEqual(result_json["message"], "Invalid credentials")
         self.assertFalse(result_json["success"])
         self.assertEqual(result.status_code, 401)
-
-    def test_admin_manage_withoutAuthorizationHeader(self):
-        # Arrange
-        url = "/admin/manage"
-
-        # Act
-        result = self.app.get(url)
-        result_json = result.get_json()
-
-        # Assert
-        self.assertEqual(result_json["msg"], "Missing Authorization Header")
-        self.assertEqual(result.status_code, 401)
-
-    def test_admin_manage_withBadHeader(self):
-        # Arrange
-        url = "/admin/manage"
-        headers = {"Authorization": "Bearer"}
-
-        # Act
-        result = self.app.get(url, headers=headers)
-        result_json = result.get_json()
-
-        print(f"results {result_json}")
-
-        # Assert
-        self.assertEqual(
-            result_json["msg"],
-            "Bad Authorization header. Expected value 'Bearer <JWT>'",
-        )
-        self.assertEqual(result.status_code, 422)

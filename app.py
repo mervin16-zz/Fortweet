@@ -12,6 +12,7 @@ from resources.admin import (
     AdminDashboard,
     AdminAnalysis,
     AdminManage,
+    AdminRemove,
     AdminSettings,
 )
 from messages import response_errors as Err
@@ -44,7 +45,8 @@ api.add_resource(LocationSearch, "/api/tweets/location")
 api.add_resource(AdminLogin, "/fortauth")
 api.add_resource(AdminDashboard, "/admin/dashboard")
 api.add_resource(AdminAnalysis, "/admin/analysis")
-api.add_resource(AdminManage, "/admin/admins")
+api.add_resource(AdminManage, "/admin/admins", "/admin/add")
+api.add_resource(AdminRemove, "/admin/remove/<int:id>")
 api.add_resource(AdminSettings, "/admin/settings")
 
 # Start the app

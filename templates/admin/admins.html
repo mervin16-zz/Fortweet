@@ -6,6 +6,42 @@ Admins
 
 {% block body %}
 
-<h1> This is Admins </h1>
+<h1> Manage Administrators </h1>
 
+{% if admin_remove == True %}
+    {% block content %}
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        Admin has been removed
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+    {% endblock content %}
+{% endif %}
+
+<table class="table">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Email</th>
+        <th scope="col">Username</th>
+        <th scope="col">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+        {% for admin in admins %}
+            <tr>
+                <td scope="row">{{ loop.index }}</td>
+                <td>{{ admin.email }}</td>
+                <td>{{ admin.username }}</td>
+                <td>
+                    <form action="/admin/remove/{{admin.id}}" method="POST">
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+  </table>
+  
 {% endblock %}

@@ -62,7 +62,26 @@ class AdminManage(Resource):
     # TODO("Enable auth here")
     def get(self):
         headers = {"Content-Type": "text/html"}
-        return Response(HTML("admin/admins.html"), 200, headers)
+        return Response(
+            HTML("admin/admins.html", admins=AdminModel.get_all()), 200, headers
+        )
+
+    def post(self,):
+        headers = {"Content-Type": "text/html"}
+        return Response(
+            HTML("admin/admins.html", admins=AdminModel.get_all()), 200, headers
+        )
+
+
+class AdminRemove(Resource):
+    def post(self, id):
+        print(f"Delete {id}")
+        headers = {"Content-Type": "text/html"}
+        return Response(
+            HTML("admin/admins.html", admin_remove=True, admins=AdminModel.get_all()),
+            200,
+            headers,
+        )
 
 
 class AdminSettings(Resource):
