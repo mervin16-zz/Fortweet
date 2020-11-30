@@ -11,7 +11,7 @@ class TwitterSettings:
         if TwitterSettings.__instance__ is None:
 
             # Fetch settings from json file
-            with open("config/settings.json") as json_file:
+            with open("app/config/settings.json") as json_file:
                 # Load settings
                 settings = json.load(json_file)
 
