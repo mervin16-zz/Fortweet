@@ -30,10 +30,10 @@
     <div class="bg-light border-right" id="sidebar-wrapper">
       <div class="sidebar-heading">Fort Dashboard</div>
       <div class="list-group list-group-flush">
-        <a href="{{ url_for('admindashboard') }}" class="list-group-item list-group-item-action bg-light">Dashboard</a>
-        <a href="{{ url_for('adminanalysis') }}" class="list-group-item list-group-item-action bg-light">Analysis</a>
-        <a href="{{ url_for('adminmanage') }}" class="list-group-item list-group-item-action bg-light">Admins</a>
-        <a href="{{ url_for('adminsettings') }}" class="list-group-item list-group-item-action bg-light">Settings</a>
+        <a href="{{ url_for('admin.admin_dashboard') }}" class="list-group-item list-group-item-action bg-light">Dashboard</a>
+        <a href="{{ url_for('admin.admin_analysis') }}" class="list-group-item list-group-item-action bg-light">Analysis</a>
+        <a href="{{ url_for('admin.admin_manage') }}" class="list-group-item list-group-item-action bg-light">Admins</a>
+        <a href="{{ url_for('admin.admin_settings') }}" class="list-group-item list-group-item-action bg-light">Settings</a>
       </div>
     </div>
     <!-- /#sidebar-wrapper -->
@@ -51,7 +51,7 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
             <li class="nav-item">
-              <a class="nav-link" href="#">Live</a>
+              <a class="nav-link" href="{{ url_for('live.live_view') }}">Live</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#">Logout</a>

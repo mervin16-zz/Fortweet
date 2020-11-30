@@ -7,14 +7,7 @@ from app.resources.tweets import (
     LocationSearch,
     SourceSearch,
 )
-from app.resources.admin import (
-    AdminLogin,
-    AdminDashboard,
-    AdminAnalysis,
-    AdminManage,
-    AdminRemove,
-    AdminSettings,
-)
+from app.resources.fortauth import FortAuth
 from app.messages import response_errors as Err
 from app.setup.settings import TwitterSettings
 from app.models.admin import AdminModel
@@ -24,6 +17,8 @@ from flask import Flask
 from flask_restful import Api
 from app.setup.settings import TwitterSettings
 from app.setup.database import db
+from app.admin import admin as Admin
+from app.live import live as Live
 
 
 def create_app():
@@ -34,6 +29,9 @@ def create_app():
         static_folder="static",
         instance_relative_config=True,
     )
+
+    app.register_blueprint(Admin, url_prefix="/admin")
+    app.register_blueprint(Live, url_prefix="/live")
 
     # Flask configurations
     app.config[
@@ -76,13 +74,7 @@ api.add_resource(SourceSearch, "/api/tweets/source")
 api.add_resource(AuthorSearch, "/api/tweets/author")
 api.add_resource(DateSearch, "/api/tweets/date")
 api.add_resource(LocationSearch, "/api/tweets/location")
-
-api.add_resource(AdminLogin, "/fortauth")
-api.add_resource(AdminDashboard, "/admin/dashboard")
-api.add_resource(AdminAnalysis, "/admin/analysis")
-api.add_resource(AdminManage, "/admin/admins", "/admin/add")
-api.add_resource(AdminRemove, "/admin/remove/<int:id>")
-api.add_resource(AdminSettings, "/admin/settings")
+api.add_resource(FortAuth, "/api/fortauth")
 
 # Start the app
 if __name__ == "__main__":
