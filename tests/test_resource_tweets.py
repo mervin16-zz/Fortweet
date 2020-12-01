@@ -180,3 +180,4 @@ class TweetsResourceTests(unittest.TestCase):
             self.assertEqual(result_json["message"], "")
             self.assertTrue(result_json["success"])
             self.assertEqual(result.status_code, 200)
+

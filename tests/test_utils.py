@@ -1,5 +1,6 @@
 import unittest
-from app.helpers.utils import hash
+from app.helpers.utils import hash, tweets_to_list
+from app.models.tweet import TweetModel
 
 
 class TestUtils(unittest.TestCase):
@@ -68,3 +69,78 @@ class TestUtils(unittest.TestCase):
 
         # Assert
         self.assertEqual(result, expected_result)
+
+    def test_tweetsToList_OneData(self):
+        # Arrange
+        tweets = [
+            TweetModel(
+                "PlayStation®Network",
+                "ZeyRoC",
+                "",
+                "My Message",
+                "2020-11-29 17:11:52",
+                None,
+            )
+        ]
+
+        # Act
+        result = tweets_to_list(tweets)
+
+        # Assert
+        self.assertEqual(len(tweets), len(result))
+        self.assertTrue(type(tweets), type(result))
+
+    def test_tweetsToList_MultipleData(self):
+        # Arrange
+        tweets = [
+            TweetModel(
+                "PlayStation®Network",
+                "ZeyRoC",
+                "",
+                "My Message",
+                "2020-11-29 17:11:52",
+                None,
+            ),
+            TweetModel(
+                "PlayStation®Network",
+                "ZeyRoC",
+                "",
+                "My Message",
+                "2020-11-29 17:11:52",
+                None,
+            ),
+            TweetModel(
+                "PlayStation®Network",
+                "ZeyRoC",
+                "",
+                "My Message",
+                "2020-11-29 17:11:52",
+                None,
+            ),
+            TweetModel(
+                "PlayStation®Network",
+                "ZeyRoC",
+                "",
+                "My Message",
+                "2020-11-29 17:11:52",
+                None,
+            ),
+        ]
+
+        # Act
+        result = tweets_to_list(tweets)
+
+        # Assert
+        self.assertEqual(len(tweets), len(result))
+        self.assertTrue(type(tweets), type(result))
+
+    def test_tweetsToList_NoData(self):
+        # Arrange
+        tweets = []
+
+        # Act
+        result = tweets_to_list(tweets)
+
+        # Assert
+        self.assertEqual(len(tweets), len(result))
+        self.assertTrue(type(tweets), type(result))

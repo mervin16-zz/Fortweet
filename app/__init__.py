@@ -11,7 +11,6 @@ from app.resources.fortauth import FortAuth
 from app.messages import response_errors as Err
 from app.setup.settings import TwitterSettings
 from app.models.admin import AdminModel
-from app.helpers.utils import hash
 from flask_jwt_extended import JWTManager
 from flask import Flask
 from flask_restful import Api
@@ -58,7 +57,7 @@ app, api, jwt = create_app()
 
 # Creates default admins and insert in db
 for admin in TwitterSettings.get_instance().super_admins:
-    admin = AdminModel(admin["email"], admin["username"], hash(admin["password"]))
+    admin = AdminModel(admin["email"], admin["username"], admin["password"])
     admin.insert()
 
 # Error handlers

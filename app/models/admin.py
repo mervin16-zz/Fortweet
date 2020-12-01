@@ -1,4 +1,5 @@
 from app.setup.database import db
+from app.helpers.utils import hash
 
 
 class AdminModel(db.Model):
@@ -26,8 +27,19 @@ class AdminModel(db.Model):
     def get_all():
         return AdminModel.query.all()
 
+    @classmethod
+    def remove(cls, id):
+        AdminModel.query.filter_by(id=id).delete()
+        db.session.commit()
+
     def insert(self):
         admin = self.find_by_username(self.username)
         if admin is None:
+            # Hash the password
+            self.password = hash(self.password)
+            # Add to DB
             db.session.add(self)
             db.session.commit()
+            return True
+
+        return False
