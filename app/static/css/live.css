@@ -1,0 +1,21 @@
+body,
+html {
+    background: url("/static/images/background-main.jpg") no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
+.live-container {
+    background-color: whitesmoke;
+    width: 75%;
+}
+
+.live-content-main {
+    margin: auto;
+    margin-top: 5%;
+    margin-bottom: 5%;
+    padding: 12px;
+    padding-bottom: 18px;
+}

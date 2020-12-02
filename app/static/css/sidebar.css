@@ -48,3 +48,26 @@
         margin-left: -15rem;
     }
 }
+
+
+/*******************************************************/
+/******************* Fortweet Styles *******************/
+/*******************************************************/
+
+.ftweet-text-live {
+    font-weight: bold;
+    color: rgb(42, 250, 111) !important;
+}
+
+.ftweet-text-live:hover {
+    font-weight: normal;
+}
+
+.ftweet-text-starttweets {
+    font-weight: bold;
+    color: rgb(255, 185, 55) !important;
+}
+
+.ftweet-text-starttweets:hover {
+    font-weight: normal;
+}

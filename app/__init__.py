@@ -1,23 +1,15 @@
 from flask_jwt_extended import JWTManager
-from app.resources.tweets import (
-    Tweets,
-    TweetSearch,
-    AuthorSearch,
-    DateSearch,
-    LocationSearch,
-    SourceSearch,
-)
-from app.resources.fortauth import FortAuth
-from app.messages import response_errors as Err
-from app.setup.settings import TwitterSettings
-from app.models.admin import AdminModel
+from flask_socketio import SocketIO
 from flask_jwt_extended import JWTManager
 from flask import Flask
 from flask_restful import Api
 from app.setup.settings import TwitterSettings
-from app.setup.database import db
 from app.admin import admin as Admin
 from app.live import live as Live
+from app.setup.database import db
+from app.messages import response_errors as Err
+from app.models.admin import AdminModel
+from app.resources.fortauth import FortAuth
 
 
 def create_app():
@@ -47,13 +39,26 @@ def create_app():
     app.app_context().push()
     db.create_all()
 
-    # JWT Configurations
-    jwt = JWTManager(app)
-
-    return app, api, jwt
+    return app, api
 
 
-app, api, jwt = create_app()
+app, api = create_app()
+
+# JWT Configurations
+jwt = JWTManager(app)
+
+# Socket IO
+socketio = SocketIO(app, cors_allowed_origins="*")
+
+# Other imports
+from app.resources.tweets import (
+    Tweets,
+    TweetSearch,
+    AuthorSearch,
+    DateSearch,
+    LocationSearch,
+    SourceSearch,
+)
 
 # Creates default admins and insert in db
 for admin in TwitterSettings.get_instance().super_admins:
@@ -77,5 +82,5 @@ api.add_resource(FortAuth, "/api/fortauth")
 
 # Start the app
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", debug=True)
+    socketio.run(app, host="0.0.0.0")
 

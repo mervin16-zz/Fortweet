@@ -1,33 +1,13 @@
 from flask_restful import Resource, request
 from flask_jwt_extended import jwt_required
-import threading as Coroutine
-import tweepy
 from app.helpers.utils import tweets_to_list as Transform
-from app.messages import constants as Const
-from app.setup.settings import TwitterSettings
-from app.services.streamer import FStreamListener
 from app.messages import response_errors as Err, responses_success as Succ
 from app.models.tweet import TweetModel
 from app.models.enums import TweetSearch as SearchEnum
+from app.services.streamer import StreamerInit
 
 
 class Tweets(Resource):
-
-    # [Private] Twitter configurations
-    def __twitterInstantiation(self):
-        # Get settings instance
-        settings = TwitterSettings.get_instance()
-        # Auths
-        auth = tweepy.OAuthHandler(settings.consumer_key, settings.consumer_secret,)
-        auth.set_access_token(
-            settings.access_token, settings.access_token_secret,
-        )
-        # Get API
-        api = tweepy.API(auth)
-        # Live Tweets Streaming
-        myStreamListener = FStreamListener()
-        myStream = tweepy.Stream(auth=api.auth, listener=myStreamListener)
-        myStream.filter(track=settings.filters)
 
     # [POST] Post a tweet in database
     @jwt_required
@@ -42,15 +22,11 @@ class Tweets(Resource):
 
             if value == "start_live_tweet_streaming":
 
-                for coro in Coroutine.enumerate():
-                    print(coro.name)
-                    if coro.name == Const.FLAG_TWEETS_LIVE_CAPTURE:
-                        return Err.ERROR_STREAM_RUNNING
+                streamer = StreamerInit()
+                has_started = streamer.start()
 
-                stream = Coroutine.Thread(target=self.__twitterInstantiation)
-                stream.setName(Const.FLAG_TWEETS_LIVE_CAPTURE)
-                stream.start()
-
+                if not has_started:
+                    return Err.ERROR_STREAM_RUNNING
             else:
                 return Err.ERROR_FLAG_INCORRECT
 

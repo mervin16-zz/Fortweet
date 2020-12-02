@@ -2,6 +2,7 @@ from flask import render_template as HTML, make_response as Response
 from flask_jwt_extended.utils import create_refresh_token, create_access_token
 from flask_jwt_extended import jwt_required
 from flask_restful import Resource, reqparse
+from flask_socketio import emit
 from app.models.admin import AdminModel
 from app.helpers.utils import hash
 from app.messages import response_errors as Err
