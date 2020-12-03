@@ -1,5 +1,5 @@
 from flask_jwt_extended import JWTManager
-from flask_socketio import SocketIO
+from flask_socketio import SocketIO, emit
 from flask_jwt_extended import JWTManager
 from flask import Flask
 import app.messages.response_errors as Err
@@ -9,6 +9,7 @@ import app.live as live
 import app.api as api
 import app.setup.database as database
 import app.setup.settings as settings
+import app.services.streamer as streamer
 
 
 def create_app():
@@ -22,7 +23,7 @@ def create_app():
 
     # Register blueprints
     app.register_blueprint(admin.admin, url_prefix="/admin")
-    app.register_blueprint(live.live, url_prefix="/live")
+    app.register_blueprint(live.live, url_prefix="/web")
     app.register_blueprint(api.api_bp, url_prefix="/api")
 
     # Flask configurations
@@ -56,10 +57,17 @@ for admin in settings.TwitterSettings.get_instance().super_admins:
     admin = admin_mod.AdminModel(admin["email"], admin["username"], admin["password"])
     admin.insert()
 
-# Error handlers
+# Main error handlers
 @app.errorhandler(404)  # Handling HTTP 404 NOT FOUND
 def page_not_found(e):
     return Err.ERROR_NOT_FOUND
+
+
+# Listen for hello emit data
+# from client
+@socketio.on("hello-stream")
+def is_stream_active(hello_stream):
+    emit("hello-reply", streamer.StreamerInit.is_stream_active(), broadcast=True)
 
 
 # Start the app

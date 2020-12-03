@@ -1,7 +1,43 @@
 $(document).ready(function(){
-    
+
+  /************************************/
+  /*********** My Functions ***********/
+  /************************************/
+  function stream_active_setup(){
+    $("#favicon").attr("href","/static/icons/fortnite-active.png");
+    $("#stream-status-ic").attr("src","/static/icons/stream-active.png");
+    $("#stream-status-text").text("Live stream active");
+  }
+
+  function stream_inactive_setup(){
+    $("#favicon").attr("href","/static/icons/fortnite-inactive.png");
+    $("#stream-status-ic").attr("src","/static/icons/stream-inactive.png");
+    $("#stream-status-text").text("Live stream inactive");
+  }
+  
+
+
+  /*********************************/
+  /*********** My Events ***********/
+  /*********************************/
+  
     // Socket connection to server
     var socket = io.connect('http://127.0.0.1:5000')
+
+    // Send a hello to know
+    // if a stream is already active
+    socket.on('connect', () => {    
+      socket.emit('hello-stream', 'hello-stream');
+    });
+
+    // Listene for reply from hello
+    socket.on('hello-reply', function(bool){
+      if(bool==true){
+        stream_active_setup()
+      }else{
+        stream_inactive_setup()
+      }
+    });
 
     // Listens for tweets
     socket.on('stream-results', function(results){
@@ -23,18 +59,14 @@ $(document).ready(function(){
     // Listener for when a stream of tweets starts
     socket.on('stream-started', function(bool){
       if(bool==true){
-        $("#favicon").attr("href","/static/icons/fortnite-active.png");
-        $("#stream-status-ic").attr("src","/static/icons/stream-active.png");
-        $("#stream-status-text").text("Live stream active");
+        stream_active_setup()
       }
     });
 
     // Listener for when a stream of tweets ends
     socket.on('stream-ended', function(bool){
       if(bool==true){
-        $("#favicon").attr("href","/static/icons/fortnite-inactive.png");
-        $("#stream-status-ic").attr("src","/static/icons/stream-inactive.png");
-        $("#stream-status-text").text("Live stream inactive");
+        stream_inactive_setup()
       }
     });
 

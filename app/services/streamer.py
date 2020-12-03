@@ -94,3 +94,12 @@ class StreamerInit:
         stream.start()
 
         return True
+
+    @staticmethod
+    def is_stream_active():
+        for coro in Coroutine.enumerate():
+            if coro.name == Const.FLAG_TWEETS_LIVE_CAPTURE:
+                return True
+
+        return False
+

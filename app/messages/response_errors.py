@@ -1,7 +1,7 @@
 ERROR_NOT_FOUND = (
     {
         "tweets": [],
-        "message": "No tweets found under this identifier.",
+        "message": "Oops, looks like you got the wrong address",
         "success": False,
     },
     404,

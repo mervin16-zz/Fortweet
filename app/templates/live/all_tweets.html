@@ -1,0 +1,43 @@
+{% extends 'live/master.html' %}
+
+{% block title %}
+Fortweet Tweets
+{% endblock %}
+
+{% block body %}
+
+<h4 class="text-center mt-3 mb-5">All Fortweets</h4>
+
+{% for tweet in tweets.items %}
+    <div class="row justify-content-md-center mt-3">
+        <div class="col-md-2">
+            <img width="56px" height="56px"  src="{{ tweet.profile_pic if tweet.profile_pic != '' else url_for('static', filename='icons/profile-pic.png') }}" class="mx-auto d-block rounded"  alt="">
+        </div>
+        <div class="col-md-8 my-auto">
+        <div><b>{{ tweet.author }}</b></div>
+        <div>{{ tweet.message }}</div>
+        </div>
+    </div>
+{% endfor %}
+
+<div class="row justify-content-md-center mt-5">
+    <div class="col-md-11 d-flex justify-content-center">
+        <ul class="pagination" style="margin:0; padding:0">
+            {% for page in tweets.iter_pages(left_edge=3, right_edge=3) %}
+
+                {% if page %}
+                    <li class="page-item">
+                        <a class="page-link" href="{{ url_for('live.all_tweets', page_num=page)}}"> {{ page }} </a>
+                    </li>
+                {% else %}
+                    <li class="page-item disabled">
+                        <a class="page-link" href="#">...</a>
+                    </li>
+                {% endif %}
+
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+
+{% endblock %}

@@ -81,4 +81,3 @@ def admin_start_stream():
     # because the user doesn't need to get away
     # from current page
     return "", 204
-

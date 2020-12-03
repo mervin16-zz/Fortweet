@@ -36,8 +36,10 @@ class TweetModel(database.db.Model):
         database.db.session.commit()
 
     @staticmethod
-    def get_all():
-        return TweetModel.query.all()
+    def get_paginate(per_page, page_num):
+        return TweetModel.query.paginate(
+            per_page=per_page, page=page_num, error_out=True
+        )
 
     @staticmethod
     def search(query, search_enum):

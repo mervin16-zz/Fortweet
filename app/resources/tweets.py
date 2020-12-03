@@ -37,9 +37,10 @@ class Tweets(Resource):
         return Succ.SUCCESS_TWEETS_STARTED
 
     # [GET] Get all tweets from database
-    def get(self):
-        tweets = tweet.TweetModel.get_all()
-        return Succ.SUCCESS_TWEETS_RETURNED(utils.tweets_to_list(tweets))
+    def get(self, page):
+        print(page)
+        tweets = tweet.TweetModel.get_paginate(200, page)
+        return Succ.SUCCESS_TWEETS_RETURNED(utils.tweets_to_list(tweets.items))
 
 
 class TweetSearch(Resource):
