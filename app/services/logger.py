@@ -1,6 +1,6 @@
 from datetime import datetime
-from app.helpers.utils import create_logger
 import os
+import app.helpers.utils as utils
 
 
 def get_logger():
@@ -11,7 +11,7 @@ def get_logger():
     if os.path.exists(LOG_FOLDER) is False:
         os.mkdir(LOG_FOLDER)
 
-    logger = create_logger(
+    logger = utils.create_logger(
         (LOG_FOLDER + datetime.now().strftime("%Y-%m-%d--%H-%M-%S") + ".log")
     )
     return logger

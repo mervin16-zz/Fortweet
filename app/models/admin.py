@@ -1,14 +1,14 @@
-from app.setup.database import db
-from app.helpers.utils import hash
+import app.setup.database as database
+import app.helpers.utils as utils
 
 
-class AdminModel(db.Model):
+class AdminModel(database.db.Model):
     __tablename__ = "admins"
 
-    id = db.Column(db.Integer, primary_key=True)
-    email = db.Column(db.String(80))
-    username = db.Column(db.String(80))
-    password = db.Column(db.String(80))
+    id = database.db.Column(database.db.Integer, primary_key=True)
+    email = database.db.Column(database.db.String(80))
+    username = database.db.Column(database.db.String(80))
+    password = database.db.Column(database.db.String(80))
 
     def __init__(self, email, username, password):
         self.email = email
@@ -30,16 +30,16 @@ class AdminModel(db.Model):
     @classmethod
     def remove(cls, id):
         AdminModel.query.filter_by(id=id).delete()
-        db.session.commit()
+        database.db.session.commit()
 
     def insert(self):
         admin = self.find_by_username(self.username)
         if admin is None:
             # Hash the password
-            self.password = hash(self.password)
+            self.password = utils.hash(self.password)
             # Add to DB
-            db.session.add(self)
-            db.session.commit()
+            database.db.session.add(self)
+            database.db.session.commit()
             return True
 
         return False

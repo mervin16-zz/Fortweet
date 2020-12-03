@@ -26,12 +26,25 @@
 <body>
     
     <div class="container container-md live-container rounded">
-        <div id="live-tweet-container" class="live-content-main">
-            <div class="row">
-                <div class="col-md">
-                    <h5 class="text-center mt-3">Welcome to Fortweet Live</h5>
-                    
-                    <p class="text-center mt-3"> -- Tweets will be displayed above --</p>
+        <div class="live-content-main">
+            <div class="row justify-content-between mb-5">
+                <div class="col-4">
+                  <a href="#">How to start a live stream ?</a>
+                </div>
+                <div class="col-3">
+                    <img id="stream-status-ic" width="12px" height="12px"  src="{{ url_for('static', filename='icons/stream-inactive.png') }}" class="mr-2" alt="">
+                    <small id="stream-status-text">Live stream inactive</small>
+                </div>
+              </div>
+
+            <div id="live-tweet-container">
+                <div class="row">
+                    <div class="col-md">
+                        
+                        <p class="text-center mt-5"> -- Tweets will be displayed above --</p>
+    
+                        <h4 class="text-center mt-3">Welcome to Fortweet Live</h4>
+                    </div>
                 </div>
             </div>
         </div>

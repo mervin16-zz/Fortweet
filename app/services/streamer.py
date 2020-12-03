@@ -1,22 +1,22 @@
 import time
 import tweepy
 import threading as Coroutine
-from app import socketio
-from app.messages import constants as Const
-from app.setup.settings import TwitterSettings
-from app.models.tweet import TweetModel
-from app.services.logger import get_logger as Logger
+import app.messages.constants as Const
+import app.setup.settings as settings_mod
+import app.models.tweet as tweet_mod
+import app.services.logger as logger
+import app
 
 
 class FStreamListener(tweepy.StreamListener):
     def __init__(self):
         self.start_time = time.time()
-        self.limit = TwitterSettings.get_instance().stream_time
+        self.limit = settings_mod.TwitterSettings.get_instance().stream_time
 
-        Logger().debug("Live capture has started")
+        logger.get_logger().debug("Live capture has started")
 
         # Notify client that a live capture will start
-        socketio.emit(
+        app.socketio.emit(
             "stream-started", True, broadcast=True,
         )
 
@@ -26,7 +26,7 @@ class FStreamListener(tweepy.StreamListener):
         if (time.time() - self.start_time) < self.limit:
 
             # Create tweet object
-            forttweet = TweetModel(
+            forttweet = tweet_mod.TweetModel(
                 status.source,
                 status.user.name,
                 status.user.profile_background_image_url_https,
@@ -36,7 +36,7 @@ class FStreamListener(tweepy.StreamListener):
             )
 
             # Emit to socket
-            socketio.emit(
+            app.socketio.emit(
                 "stream-results",
                 {
                     "profile_pic": forttweet.profile_pic,
@@ -51,10 +51,10 @@ class FStreamListener(tweepy.StreamListener):
 
             return True
         else:
-            Logger().debug("Live capture has ended")
+            logger.get_logger().debug("Live capture has ended")
 
             # Notify client that a live capture has ended
-            socketio.emit(
+            app.socketio.emit(
                 "stream-ended", True, broadcast=True,
             )
 
@@ -62,7 +62,7 @@ class FStreamListener(tweepy.StreamListener):
             return False
 
     def on_error(self, status):
-        Logger().debug(f"An error occurred while fetching tweets: {status}")
+        logger.get_logger().debug(f"An error occurred while fetching tweets: {status}")
         raise Exception(f"An error occurred while fetching tweets: {status}")
 
 
@@ -71,7 +71,7 @@ class StreamerInit:
     # [Private] Twitter configurations
     def __twitterInstantiation(self):
         # Get settings instance
-        settings = TwitterSettings.get_instance()
+        settings = settings_mod.TwitterSettings.get_instance()
         # Auths
         auth = tweepy.OAuthHandler(settings.consumer_key, settings.consumer_secret,)
         auth.set_access_token(

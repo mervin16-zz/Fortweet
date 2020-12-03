@@ -1,18 +1,18 @@
-from app.setup.database import db
-from app.models.enums import TweetSearch
-from app.services.logger import get_logger as Logger
+import app.setup.database as database
+import app.models.enums as enums
+import app.services.logger as logger
 
 
-class TweetModel(db.Model):
+class TweetModel(database.db.Model):
     __tablename__ = "fortweets"
 
-    id = db.Column(db.Integer, primary_key=True)
-    source = db.Column(db.String(80))
-    author = db.Column(db.String(80))
-    profile_pic = db.Column(db.String())
-    message = db.Column(db.String())
-    date = db.Column(db.String(80))
-    location = db.Column(db.String(80))
+    id = database.db.Column(database.db.Integer, primary_key=True)
+    source = database.db.Column(database.db.String(80))
+    author = database.db.Column(database.db.String(80))
+    profile_pic = database.db.Column(database.db.String())
+    message = database.db.Column(database.db.String())
+    date = database.db.Column(database.db.String(80))
+    location = database.db.Column(database.db.String(80))
 
     def __init__(self, source, author, profile_pic, message, date, location):
         self.source = source
@@ -32,8 +32,8 @@ class TweetModel(db.Model):
         }
 
     def insert(self):
-        db.session.add(self)
-        db.session.commit()
+        database.db.session.add(self)
+        database.db.session.commit()
 
     @staticmethod
     def get_all():
@@ -45,18 +45,20 @@ class TweetModel(db.Model):
         # Check if query is not none
         if query is not None:
 
-            if search_enum == TweetSearch.Message:
+            if search_enum == enums.TweetSearch.Message:
                 filter = TweetModel.message.like(f"%{query}%")
-            elif search_enum == TweetSearch.Author:
+            elif search_enum == enums.TweetSearch.Author:
                 filter = TweetModel.author.like(f"%{query}%")
-            elif search_enum == TweetSearch.Source:
+            elif search_enum == enums.TweetSearch.Source:
                 filter = TweetModel.source.like(f"%{query}%")
-            elif search_enum == TweetSearch.Date:
+            elif search_enum == enums.TweetSearch.Date:
                 filter = TweetModel.date.like(f"%{query}%")
-            elif search_enum == TweetSearch.Location:
+            elif search_enum == enums.TweetSearch.Location:
                 filter = TweetModel.location.like(f"%{query}%")
             else:
-                Logger().debug("An internal error occurred while filtering data")
+                logger.get_logger().debug(
+                    "An internal error occurred while filtering data"
+                )
                 raise Exception("An internal error occured while filtering data.")
 
             return TweetModel.query.filter(filter).all()

@@ -1,5 +1,5 @@
 import json
-from app.services.logger import get_logger as Logger
+import app.services.logger as logger
 
 
 class TwitterSettings:
@@ -37,7 +37,9 @@ class TwitterSettings:
             # Set instance to self
             TwitterSettings.__instance__ = self
         else:
-            Logger().debug("Exception occured with TwitterSettings class instantiation")
+            logger.get_logger().debug(
+                "Exception occured with TwitterSettings class instantiation"
+            )
             raise Exception("You cannot create another TwitterSettings class")
 
     @staticmethod
