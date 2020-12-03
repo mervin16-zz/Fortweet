@@ -6,32 +6,49 @@ Admins
 
 {% block body %}
 
-<h1> Manage Administrators </h1>
+<!-- Page Title -->
+<h4 class="fortweet-title mb-5"> Administrators </h4>
+
+{% with errors = get_flashed_messages(category_filter=["error"]) %}
+  {% if errors %}
+    {% for message in errors %}
+      <!-- Messages -->
+      <div class="row justify-content-center align-items-center">
+        <div class="col-8 mx-auto">
+            <!-- Error Message -->
+            <div class="alert alert-danger alert-dismissible fade show mb-5" role="alert">
+                {{ message }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+
+{% with success = get_flashed_messages(category_filter=["success"]) %}
+  {% if success %}
+    {% for message in success %}
+      <!-- Messages -->
+      <div class="row justify-content-center align-items-center">
+        <div class="col-8 mx-auto">
+            <!-- Error Message -->
+            <div class="alert alert-success alert-dismissible fade show mb-5" role="alert">
+                {{ message }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
 
 <div class="row">
   <div class="col-md-8 mx-auto">
-
-    {% if admin_remove == True %}
-        {% block content_error %}
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            Admin has been removed
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-        {% endblock content_error %}
-    {% endif %}
-
-    {% if admin_added == True %}
-        {% block content_success %}
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            Admin has been added
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-        {% endblock content_success %}
-    {% endif %}
 
     <table class="table">
       <thead class="thead-dark">
@@ -58,9 +75,12 @@ Admins
       </tbody>
     </table>
 
-    <form action="{{ url_for('admin.admin_add_get')}}" method="GET">
-      <button type="submit" class="btn btn-dark float-right">Add Admin</button>
-    </form>
+    <div class="mt-5">
+      <form action="{{ url_for('admin.admin_add_get')}}" method="GET">
+        <button type="submit" class="btn btn-dark float-right">Add Admin</button>
+      </form>
+    </div>
+
   </div>
 </div>   
 

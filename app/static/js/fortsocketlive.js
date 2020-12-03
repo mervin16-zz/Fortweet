@@ -12,7 +12,10 @@ $(document).ready(function(){
         <div class="col-md-2">
             <img width="56px" height="56px"  src="${results.profile_pic !== "" ? results.profile_pic : "/static/icons/profile-pic.png"}" class="mx-auto d-block rounded"  alt="">
         </div>
-        <div class="col-md-8 my-auto">${results.message}</div>
+        <div class="col-md-8 my-auto">
+          <div><b>${results.author}</b></div>
+          <div>${results.message}</div>
+        </div>
       </div>
       `);
     });

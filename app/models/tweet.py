@@ -62,3 +62,10 @@ class TweetModel(database.db.Model):
                 raise Exception("An internal error occured while filtering data.")
 
             return TweetModel.query.filter(filter).all()
+
+    @classmethod
+    def delete_all(cls):
+        TweetModel.query.delete()
+        database.db.session.commit()
+
+        return True

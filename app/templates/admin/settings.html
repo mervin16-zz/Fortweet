@@ -6,6 +6,77 @@ Settings
 
 {% block body %}
 
-<h1> This is Settings </h1>
+<!-- Page Title -->
+<h4 class="fortweet-title mb-5"> Settings </h4>
+
+{% with errors = get_flashed_messages(category_filter=["error"]) %}
+  {% if errors %}
+    {% for message in errors %}
+      <!-- Messages -->
+      <div class="row justify-content-center align-items-center">
+        <div class="col-8 mx-auto">
+            <!-- Error Message -->
+            <div class="alert alert-danger alert-dismissible fade show mb-5" role="alert">
+                {{ message }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+
+<!-- Add Administrator Components -->
+<div class="row justify-content-center align-items-center mb-4">
+    <div class="col-6">
+        <span><b>Add admin</b></span>
+        <br>
+        <span>Add an administrator</span>
+    </div>
+    <div class="col-2">
+        <form action="{{ url_for('admin.admin_add_get')}}" method="GET">
+            <button type="submit" class="btn btn-dark float-right">Add Admin</button>
+        </form>
+    </div>
+</div>
+
+<!-- Delete Tweets Components -->
+<div class="row justify-content-center align-items-center mb-4">
+    <div class="col-6">
+        <span><b>Delete All Tweets</b></span>
+        <br>
+        <span>This will remove ALL tweets in the database</span>
+    </div>
+    <div class="col-2">
+
+        <!-- Button trigger modal -->
+        <button type="button" class="btn btn-danger float-right"  data-toggle="modal" data-target="#exampleModal">Delete all</button>
+        
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to delete all tweets ?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <form action="{{ url_for('admin.admin_delete_tweets')}}" method="POST">
+                        <button type="submit" class="btn btn-danger float-right">Delete</button>
+                    </form>
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 {% endblock %}

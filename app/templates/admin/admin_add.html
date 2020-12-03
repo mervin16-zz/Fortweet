@@ -6,22 +6,30 @@ Admins
 
 {% block body %}
 
-<h1> Add Administrator </h1>
+<!-- Page Title -->
+<h4 class="fortweet-title mb-5"> Add Administrator </h4>
 
-<div class="row">
-    <div class="col-md-4 mx-auto">
-        
-        {% if error_message is not none %}
-            {% block content_notify %}
-            <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                {{ error_message }}
+{% with errors = get_flashed_messages(category_filter=["error"]) %}
+  {% if errors %}
+    {% for message in errors %}
+      <!-- Messages -->
+      <div class="row justify-content-center align-items-center">
+        <div class="col-4 mx-auto">
+            <!-- Error Message -->
+            <div class="alert alert-danger alert-dismissible fade show mb-5" role="alert">
+                {{ message }}
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            {% endblock content_notify %}
-        {% endif %}
+        </div>
+    </div>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
 
+<div class="row">
+    <div class="col-md-4 mx-auto">
         <form action="{{ url_for('admin.admin_add_post')}}" method="POST">
             <div class="form-group">
               <label for="admin-email">Email address</label>

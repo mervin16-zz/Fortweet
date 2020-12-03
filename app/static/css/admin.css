@@ -48,6 +48,10 @@
 /******************* Fortweet Styles *******************/
 /*******************************************************/
 
+.fortweet-title {
+    margin: 18px;
+}
+
 #tweets-live-start {
     display: flex;
     align-items: center;

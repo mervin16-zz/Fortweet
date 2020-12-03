@@ -1,5 +1,7 @@
-from flask import Blueprint, render_template as HTML, request
+from flask import Blueprint, render_template as HTML, request, redirect
+from flask.helpers import flash, url_for
 import app.models.admin as admin_mod
+import app.models.tweet as tweet_mod
 import app.services.streamer as streamer_mod
 
 admin = Blueprint(
@@ -32,14 +34,14 @@ def admin_delete(id):
     # Remove admin
     admin_mod.AdminModel.remove(id)
 
-    return HTML(
-        "admin/admins.html", admin_remove=True, admins=admin_mod.AdminModel.get_all()
-    )
+    flash(f"Admin removed", "error")
+
+    return redirect(url_for("admin.admin_manage"))
 
 
 @admin.route("/add")
 def admin_add_get():
-    return HTML("admin/admin_add.html", error_message=None)
+    return HTML("admin/admin_add.html")
 
 
 @admin.route("/add", methods=["POST"])
@@ -52,20 +54,31 @@ def admin_add_post():
     is_success = admin.insert()
 
     if is_success:
-        return HTML(
-            "admin/admins.html", admin_added=True, admins=admin_mod.AdminModel.get_all()
-        )
+        flash(f"The admin {admin.username} has been added", "success")
+        return redirect(url_for("admin.admin_manage"))
     else:
-        return HTML(
-            "admin/admin_add.html",
-            error_message=f"The admin {admin.username} already exists",
-        )
+        flash(f"The admin {admin.username} already exists", "error")
+        return redirect(url_for("admin.admin_add_get"))
+
+
+@admin.route("/deletetweets", methods=["POST"])
+def admin_delete_tweets():
+    # Delete all tweets
+    tweet_mod.TweetModel.delete_all()
+
+    flash("All tweets has been deleted", "error")
+
+    return redirect(url_for("admin.admin_settings"))
 
 
 @admin.route("/startstream", methods=["POST"])
 def admin_start_stream():
+    # Starts the streaming
     stream = streamer_mod.StreamerInit()
     stream.start()
 
+    # Returns a no content status code
+    # because the user doesn't need to get away
+    # from current page
     return "", 204
 
