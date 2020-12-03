@@ -36,7 +36,7 @@ class AdminBlueprintTests(unittest.TestCase):
             # Assert
             self.assertEqual(result_json["tweets"], [])
             self.assertEqual(
-                result_json["message"], "No tweets found under this identifier."
+                result_json["message"], "Oops, looks like you got the wrong address"
             )
             self.assertFalse(result_json["success"])
             self.assertEqual(result.status_code, 404)

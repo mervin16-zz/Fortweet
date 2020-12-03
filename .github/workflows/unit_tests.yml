@@ -1,0 +1,32 @@
+name: Run Python Unit Tests
+on:
+  push:
+    branches:
+      - dev/mervin
+      - master
+jobs:
+  build:
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install Python 3.8
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.8
+      - name: Install dependencies
+        run: |
+          python3 -m pip install --upgrade pip
+          pip3 install -r requirements.txt
+      - name: Add Necessary Folders & Files
+        run: mkdir databases
+      - name: Add Environment Variables
+        run: |
+          export TWITTER_CONSUMER_KEY=unrel
+          export TWITTER_CONSUMER_SECRET=unrel
+          export TWITTER_ACCESS_TOKEN=unrel
+          export TWITTER_ACCESS_SECRET=unrel
+          export FILTERS=['fortnite']
+          export SUPER_ADMINS=10
+          export JWT_SECRET=ij2342i342n3ip4
+      - name: Test with Pytest
+        run: pytest
