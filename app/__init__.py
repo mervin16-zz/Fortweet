@@ -2,6 +2,7 @@ from flask_jwt_extended import JWTManager
 from flask_socketio import SocketIO, emit
 from flask_jwt_extended import JWTManager
 from flask import Flask
+import os
 import app.messages.response_errors as Err
 import app.models.admin as admin_mod
 import app.admin as admin
@@ -10,6 +11,13 @@ import app.api as api
 import app.setup.database as database
 import app.setup.settings as settings
 import app.services.streamer as streamer
+
+
+def prelims():
+    # Checks if folder to database exists
+    # If not, create one
+    if not os.path.exists("databases"):
+        os.makedirs("databases")
 
 
 def create_app():
@@ -41,6 +49,9 @@ def create_app():
     return app
 
 
+# Preliminary checks
+prelims()
+
 # Create the app
 app = create_app()
 
@@ -70,6 +81,5 @@ def is_stream_active(hello_stream):
 
 # Start the app
 if __name__ == "__main__":
-    # TODO("Remove debug before deploying")
-    socketio.run(app, host="0.0.0.0", debug=True)
+    socketio.run(app, host="0.0.0.0")
 
