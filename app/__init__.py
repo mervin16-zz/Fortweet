@@ -16,8 +16,8 @@ import app.services.streamer as streamer
 def prelims():
     # Checks if folder to database exists
     # If not, create one
-    if not os.path.exists("databases"):
-        os.makedirs("databases")
+    if not os.path.exists("app/databases"):
+        os.makedirs("app/databases")
 
 
 def create_app():
