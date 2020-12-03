@@ -1,5 +1,6 @@
 from flask import Blueprint, render_template as HTML, request
 import app.models.admin as admin_mod
+import app.services.streamer as streamer_mod
 
 admin = Blueprint(
     "admin", __name__, static_folder="static", template_folder="templates"
@@ -61,10 +62,10 @@ def admin_add_post():
         )
 
 
-# @admin.route("/startstream", methods=["POST"])
-# def admin_start_stream():
-#     stream = StreamerInit()
-#     stream.start()
+@admin.route("/startstream", methods=["POST"])
+def admin_start_stream():
+    stream = streamer_mod.StreamerInit()
+    stream.start()
 
-#     return "", 204
+    return "", 204
 

@@ -3,7 +3,7 @@ from flask_restful import Api
 import app.resources.tweets as tweets_mod
 import app.resources.fortauth as fortauth
 
-api_bp = Blueprint("api", __name__, static_folder="static", template_folder="templates")
+api_bp = Blueprint("api", __name__)
 
 api = Api(api_bp)
 
