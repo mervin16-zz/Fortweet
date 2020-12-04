@@ -56,10 +56,7 @@ def create_app():
 
     database.db.app = app
     database.db.init_app(app)
-
-    if app.config["DEBUG"]:
-        with app.app_context():
-            database.db.create_all()
+    database.db.create_all()
 
     return app
 
