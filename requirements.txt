@@ -35,3 +35,4 @@ toml==0.10.2
 tweepy==3.9.0
 urllib3==1.26.2
 Werkzeug==1.0.1
+psycopg2
