@@ -4,5 +4,6 @@ flask-jwt-extended
 flask-sqlalchemy
 flask-socketio
 pytest
+tweepy
 uwsgi
 psycopg2
