@@ -20,6 +20,12 @@ def prelims():
         os.makedirs("app/databases")
 
 
+def create_default_admin():
+    keys = settings.TwitterSettings.get_instance().super_admin
+    admin = admin_mod.AdminModel(keys[0], keys[1], keys[2])
+    admin.insert()
+
+
 def create_app():
     # Create a Flask Application
     app = Flask(
@@ -71,9 +77,7 @@ jwt = JWTManager(app)
 socketio = SocketIO(app, cors_allowed_origins="*")
 
 # Creates default admins and insert in db
-for admin in settings.TwitterSettings.get_instance().super_admins:
-    admin = admin_mod.AdminModel(admin["email"], admin["username"], admin["password"])
-    admin.insert()
+create_default_admin()
 
 # Main error handlers
 @app.errorhandler(404)  # Handling HTTP 404 NOT FOUND

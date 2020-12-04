@@ -27,11 +27,11 @@ class TwitterSettings:
                     self.access_token_secret = settings["api"]["access_token_secret"]
 
                     # Streaming
-                    self.filters = settings["streaming"]["filters"]
+                    self.filters = (settings["streaming"]["filters"]).split(",")
                     self.stream_time = settings["streaming"]["stream_time"]
 
                     # Super Admins
-                    self.super_admins = settings["super_admins"]
+                    self.super_admin = settings["super_admins"].split(",")
 
                     # Keys
                     self.jwt_secret_key = settings["key"]["jwt_secret"]
@@ -44,11 +44,11 @@ class TwitterSettings:
                 self.access_token_secret = os.environ["TWITTER_ACCESS_SECRET"]
 
                 # Streaming
-                self.filters = os.environ["FILTERS"]
+                self.filters = os.environ["FILTERS"].split(",")
                 self.stream_time = os.environ["STREAM_TIME"]
 
                 # Super Admins
-                self.super_admins = os.environ["SUPER_ADMINS"]
+                self.super_admin = os.environ["SUPER_ADMINS"].split(",")
 
                 # Keys
                 self.jwt_secret_key = os.environ["JWT_SECRET"]
