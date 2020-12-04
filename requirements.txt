@@ -1,7 +1,8 @@
-Flask
-Flask-RESTful
-Flask-JWT-Extended
-Flask-SQLAlchemy
+flask
+flask-restful
+flask-jwt-extended
+flask-sqlalchemy
+flask-socketio
 pytest
 uwsgi
 psycopg2
