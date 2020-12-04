@@ -8,9 +8,9 @@ import app.models.admin as admin_mod
 import app.admin as admin
 import app.live as live
 import app.api as api
-import app.setup.database as database
 import app.setup.settings as settings
 import app.services.streamer as streamer
+import app.setup.database as database
 
 
 def prelims():
@@ -43,11 +43,17 @@ def create_app():
     app.config["PROPAGATE_EXCEPTIONS"] = True
     app.secret_key = settings.TwitterSettings.get_instance().jwt_secret_key
 
-    # SQLAlchemy configurations
+    # # SQLAlchemy configurations
+    # database.db.app = app
+    # database.db.init_app(app)
+    # database.db.create_all()
+
     database.db.app = app
     database.db.init_app(app)
-    app.app_context().push()
-    database.db.create_all()
+
+    if app.config["DEBUG"]:
+        with app.app_context():
+            database.db.create_all()
 
     return app
 
