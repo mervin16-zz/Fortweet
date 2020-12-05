@@ -35,24 +35,21 @@ def create_app():
         instance_relative_config=True,
     )
 
+    my_settings = settings.TwitterSettings.get_instance()
+
     # Register blueprints
     app.register_blueprint(admin.admin, url_prefix="/admin")
     app.register_blueprint(live.live, url_prefix="/web")
     app.register_blueprint(api.api_bp, url_prefix="/api")
 
     # Flask configurations
-    # app.config["SQLALCHEMY_DATABASE_URI"] = f"sqlite:///databases/fortweets.db"
     app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get(
-        "DATABASE_URL", f"sqlite:///databases/fortweets.db"
+        f"postgresql+psycopg2://{my_settings.db_username}:{my_settings.db_password}@{my_settings.db_host}/{my_settings.db_name}",
+        f"sqlite:///databases/fortweets.db",
     )
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
     app.config["PROPAGATE_EXCEPTIONS"] = True
-    app.secret_key = settings.TwitterSettings.get_instance().jwt_secret_key
-
-    # # SQLAlchemy configurations
-    # database.db.app = app
-    # database.db.init_app(app)
-    # database.db.create_all()
+    app.secret_key = my_settings.jwt_secret_key
 
     database.db.app = app
     database.db.init_app(app)

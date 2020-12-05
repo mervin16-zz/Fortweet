@@ -137,11 +137,11 @@ dmypy.json
 # Cython debug symbols
 cython_debug/
 
-# Configs
-config/
-
 # Output 
 out/
 
 # Databases
 databases/
+
+# Environment secret
+secret.env

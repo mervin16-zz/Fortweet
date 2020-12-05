@@ -17,14 +17,17 @@ jobs:
         run: |
           python3 -m pip install --upgrade pip
           pip3 install -r requirements.txt
-      - name: Add Environment Variables
-        run: |
-          export TWITTER_CONSUMER_KEY=unrel
-          export TWITTER_CONSUMER_SECRET=unrel
-          export TWITTER_ACCESS_TOKEN=unrel
-          export TWITTER_ACCESS_SECRET=unrel
-          export FILTERS=['fortnite']
-          export SUPER_ADMINS=10
-          export JWT_SECRET=ij2342i342n3ip4
       - name: Test with Pytest
         run: pytest
+        env:
+          TWITTER_CONSUMER_KEY: "unrel"
+          TWITTER_CONSUMER_SECRET: "unrel"
+          TWITTER_ACCESS_TOKEN: "unrel"
+          TWITTER_ACCESS_SECRET: "unrel"
+          FILTERS: "fortnite"
+          SUPER_ADMINS: 10
+          JWT_SECRET: "ij2342i342n3ip4"
+          DB_USERNAME: "test"
+          DB_PASSWORD: "test1"
+          DB_HOST: "www.example.com"
+          DB_NAME: "fortweet"

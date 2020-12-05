@@ -1,4 +1,3 @@
-import json
 import os
 import app.services.logger as logger
 
@@ -11,47 +10,27 @@ class TwitterSettings:
         # Constructor
         if TwitterSettings.__instance__ is None:
 
-            # Checks if file exists
-            # If not, use environment variables
-            if os.path.isdir("app/config"):
+            # API Settings
+            self.consumer_key = os.environ["TWITTER_CONSUMER_KEY"]
+            self.consumer_secret = os.environ["TWITTER_CONSUMER_SECRET"]
+            self.access_token = os.environ["TWITTER_ACCESS_TOKEN"]
+            self.access_token_secret = os.environ["TWITTER_ACCESS_SECRET"]
 
-                # Fetch settings from json file
-                with open("app/config/settings.json") as json_file:
-                    # Load settings
-                    settings = json.load(json_file)
+            # Streaming
+            self.filters = os.environ["FILTERS"].split(",")
+            self.stream_time = os.environ["STREAM_TIME"]
 
-                    # API Settings
-                    self.consumer_key = settings["api"]["consumer_key"]
-                    self.consumer_secret = settings["api"]["consumer_secret"]
-                    self.access_token = settings["api"]["access_token"]
-                    self.access_token_secret = settings["api"]["access_token_secret"]
+            # Super Admins
+            self.super_admin = os.environ["SUPER_ADMINS"].split(",")
 
-                    # Streaming
-                    self.filters = (settings["streaming"]["filters"]).split(",")
-                    self.stream_time = settings["streaming"]["stream_time"]
+            # Keys
+            self.jwt_secret_key = os.environ["JWT_SECRET"]
 
-                    # Super Admins
-                    self.super_admin = settings["super_admins"].split(",")
-
-                    # Keys
-                    self.jwt_secret_key = settings["key"]["jwt_secret"]
-
-            else:
-                # API Settings
-                self.consumer_key = os.environ["TWITTER_CONSUMER_KEY"]
-                self.consumer_secret = os.environ["TWITTER_CONSUMER_SECRET"]
-                self.access_token = os.environ["TWITTER_ACCESS_TOKEN"]
-                self.access_token_secret = os.environ["TWITTER_ACCESS_SECRET"]
-
-                # Streaming
-                self.filters = os.environ["FILTERS"].split(",")
-                self.stream_time = os.environ["STREAM_TIME"]
-
-                # Super Admins
-                self.super_admin = os.environ["SUPER_ADMINS"].split(",")
-
-                # Keys
-                self.jwt_secret_key = os.environ["JWT_SECRET"]
+            # Db Settings
+            self.db_name = os.environ["DB_NAME"]
+            self.db_host = os.environ["DB_HOST"]
+            self.db_username = os.environ["DB_USERNAME"]
+            self.db_password = os.environ["DB_PASSWORD"]
 
             # Set instance to self
             TwitterSettings.__instance__ = self
