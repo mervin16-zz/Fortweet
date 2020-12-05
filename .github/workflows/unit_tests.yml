@@ -13,10 +13,6 @@ jobs:
         uses: actions/setup-python@v1
         with:
           python-version: 3.8
-      - name: Install dependencies
-        run: |
-          python3 -m pip install --upgrade pip
-          pip3 install -r requirements.txt
       - name: Setup Environment variables
         run: |
           cat > secret.env << 'EOF'
@@ -29,7 +25,7 @@ jobs:
           # Twitter API Settings
           export TWITTER_CONSUMER_KEY="unrel"
           export TWITTER_CONSUMER_SECRET="unrel"
-          export TWITTER_ACCESS_TOKEN="unrel-Tu8FQrZSShXOPXzNNwCWzObgzXEsnp"
+          export TWITTER_ACCESS_TOKEN="unrel"
           export TWITTER_ACCESS_SECRET="unrel"
 
           # App Settings
@@ -40,5 +36,11 @@ jobs:
           EOF
       - name: Run Environment File
         run: source ./secret.env
+      - name: Test Some Env Variables
+        run: echo My consumer key is $TWITTER_CONSUMER_KEY
+      - name: Install dependencies
+        run: |
+          python3 -m pip install --upgrade pip
+          pip3 install -r requirements.txt
       - name: Test with Pytest
         run: pytest

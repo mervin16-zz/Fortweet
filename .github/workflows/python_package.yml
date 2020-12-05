@@ -43,7 +43,7 @@ jobs:
           # Twitter API Settings
           export TWITTER_CONSUMER_KEY="unrel"
           export TWITTER_CONSUMER_SECRET="unrel"
-          export TWITTER_ACCESS_TOKEN="unrel-Tu8FQrZSShXOPXzNNwCWzObgzXEsnp"
+          export TWITTER_ACCESS_TOKEN="unrel"
           export TWITTER_ACCESS_SECRET="unrel"
 
           # App Settings
