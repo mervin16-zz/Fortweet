@@ -17,17 +17,28 @@ jobs:
         run: |
           python3 -m pip install --upgrade pip
           pip3 install -r requirements.txt
+      - name: Setup Environment variables
+        run: |
+          cat > secret.env << 'EOF'
+          # Postgres SQL settings
+          export DB_USERNAME=test
+          export DB_PASSWORD=test
+          export DB_HOST=www.example.com
+          export DB_NAME=fortweet
+
+          # Twitter API Settings
+          export TWITTER_CONSUMER_KEY="unrel"
+          export TWITTER_CONSUMER_SECRET="unrel"
+          export TWITTER_ACCESS_TOKEN="unrel-Tu8FQrZSShXOPXzNNwCWzObgzXEsnp"
+          export TWITTER_ACCESS_SECRET="unrel"
+
+          # App Settings
+          export SUPER_ADMINS="jdoe@gmail.com, jdoe, jdoe"
+          export STREAM_TIME=20
+          export FILTERS=fortnite
+          export JWT_SECRET="unrel"
+          EOF
+      - name: Run Environment File
+        run: source ./secret.env
       - name: Test with Pytest
         run: pytest
-        env:
-          TWITTER_CONSUMER_KEY: "unrel"
-          TWITTER_CONSUMER_SECRET: "unrel"
-          TWITTER_ACCESS_TOKEN: "unrel"
-          TWITTER_ACCESS_SECRET: "unrel"
-          FILTERS: "fortnite"
-          SUPER_ADMINS: 10
-          JWT_SECRET: "ij2342i342n3ip4"
-          DB_USERNAME: "test"
-          DB_PASSWORD: "test1"
-          DB_HOST: "www.example.com"
-          DB_NAME: "fortweet"

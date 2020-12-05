@@ -1,0 +1,22 @@
+# Virtual environment
+venv/
+
+# UWSGI file
+uwsgi.ini
+
+# Heroku
+Procfile
+
+# Python Cache
+__pycache__
+.pytest_cache
+
+# Github Worlflows
+.github
+
+# Logs
+logs/
+
+# Test files
+tests/
+
