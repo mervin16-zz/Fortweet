@@ -1,9 +1,6 @@
 # Virtual environment
 venv/
 
-# UWSGI file
-uwsgi.ini
-
 # Heroku
 Procfile
 
@@ -20,3 +17,5 @@ logs/
 # Test files
 tests/
 
+# Databases
+*.db

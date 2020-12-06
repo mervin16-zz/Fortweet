@@ -84,9 +84,3 @@ def page_not_found(e):
 @socketio.on("hello-stream")
 def is_stream_active(hello_stream):
     emit("hello-reply", streamer.StreamerInit.is_stream_active(), broadcast=True)
-
-
-# Start the app
-if __name__ == "__main__":
-    socketio.run(app, host="0.0.0.0")
-

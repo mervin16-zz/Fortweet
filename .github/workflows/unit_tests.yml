@@ -42,5 +42,18 @@ jobs:
         run: |
           python3 -m pip install --upgrade pip
           pip3 install -r requirements.txt
-      - name: Test with Pytest
-        run: pytest
+      - name: Export Environment Variables and Run test
+        run: |
+          export DB_USERNAME=test
+          export DB_PASSWORD=test
+          export DB_HOST=www.example.com
+          export DB_NAME=fortweet
+          export TWITTER_CONSUMER_KEY="unrel"
+          export TWITTER_CONSUMER_SECRET="unrel"
+          export TWITTER_ACCESS_TOKEN="unrel"
+          export TWITTER_ACCESS_SECRET="unrel"
+          export SUPER_ADMINS="jdoe@gmail.com, jdoe, jdoe"
+          export STREAM_TIME=20
+          export FILTERS=fortnite
+          export JWT_SECRET="unrel"
+          pytest

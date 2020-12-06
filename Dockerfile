@@ -1,21 +1,29 @@
-FROM ubuntu:18.04
+# Using python 3.8 in Alpine
+FROM python:3.8-alpine3.11
 
-RUN apt-get update -y && apt-get install -y
-
-RUN apt install software-properties-common -y
-
-RUN add-apt-repository ppa:deadsnakes/ppa
-
-RUN apt install python3.8 -y
-
-RUN apt-get install -y python3-pip
-
-COPY ./requirements.txt /app/requirements.txt
-
+# Set the working directory to /app
 WORKDIR /app
 
-RUN pip3 install -r requirements.txt
+# Copy the current directory contents into the container at /app
+ADD . /app
 
-COPY . /app
+# Run an update
+RUN apk update
 
-ENTRYPOINT ["gunicorn", "--config", "gunicorn.py", "app:app"]
+# Dependencies for Psycopg2
+RUN apk add postgresql-dev gcc python3-dev musl-dev
+
+# Dependencies for uWSGI
+RUN apk add python3-dev build-base linux-headers pcre-dev
+
+# Install the dependencies from requirements
+RUN pip install -r requirements.txt
+
+# In case bash is needed
+#RUN apk add --no-cache bash
+
+# Tell the port number the container should expose
+EXPOSE 8083
+
+# Run the command
+ENTRYPOINT ["uwsgi", "app.ini"]

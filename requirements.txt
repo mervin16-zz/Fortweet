@@ -5,5 +5,5 @@ flask-sqlalchemy
 flask-socketio
 pytest
 tweepy
-uwsgi
+uWSGI
 psycopg2
