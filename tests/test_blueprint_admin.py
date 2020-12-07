@@ -55,16 +55,6 @@ class AdminBlueprintTests(unittest.TestCase):
         # Assert
         self.assertEqual(result.status_code, 200)
 
-    def test_admin_analysis_active(self):
-        # Arrange
-        url = "/admin/analysis"
-
-        # Act
-        result = self.app.get(url)
-
-        # Assert
-        self.assertEqual(result.status_code, 200)
-
     def test_admin_manage_active(self):
         # Arrange
         url = "/admin/manage"

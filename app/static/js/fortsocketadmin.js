@@ -30,7 +30,7 @@
       /*********************************/
       
       // Socket connection to server
-      var socket = io.connect('http://127.0.0.1:5000');
+      var socket = io.connect('http://localhost:8083');
       var is_streaming = false;
 
       // Send a hello to know

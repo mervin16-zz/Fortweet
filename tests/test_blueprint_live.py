@@ -54,3 +54,43 @@ class LiveBluePrintTests(unittest.TestCase):
 
         # Assert
         self.assertEqual(result.status_code, 200)
+
+    def test_all_tweets_active(self):
+        # Arrange
+        url = "web/all/1"
+
+        # Act
+        result = self.app.get(url)
+
+        # Assert
+        self.assertEqual(result.status_code, 200)
+
+    def test_statistics_active(self):
+        # Arrange
+        url = "web/stats"
+
+        # Act
+        result = self.app.get(url)
+
+        # Assert
+        self.assertEqual(result.status_code, 200)
+
+    def test_about_active(self):
+        # Arrange
+        url = "web/about"
+
+        # Act
+        result = self.app.get(url)
+
+        # Assert
+        self.assertEqual(result.status_code, 200)
+
+    def test_help_active(self):
+        # Arrange
+        url = "web/help"
+
+        # Act
+        result = self.app.get(url)
+
+        # Assert
+        self.assertEqual(result.status_code, 200)

@@ -8,15 +8,14 @@ admin = Blueprint(
     "admin", __name__, static_folder="static", template_folder="templates"
 )
 
+####################################
+############ Main Pages ############
+####################################
+
 
 @admin.route("/dashboard")
 def admin_dashboard():
     return HTML("admin/dashboard.html")
-
-
-@admin.route("/analysis")
-def admin_analysis():
-    return HTML("admin/analysis.html")
 
 
 @admin.route("/manage")
@@ -29,6 +28,28 @@ def admin_settings():
     return HTML("admin/settings.html")
 
 
+@admin.route("/add")
+def admin_add_get():
+    return HTML("admin/admin_add.html")
+
+
+#####################################
+########### POST Requests ###########
+#####################################
+
+
+@admin.route("/startstream", methods=["POST"])
+def admin_start_stream():
+    # Starts the streaming
+    stream = streamer_mod.StreamerInit()
+    stream.start()
+
+    # Returns a no content status code
+    # because the user doesn't need to get away
+    # from current page
+    return "", 204
+
+
 @admin.route("/remove/<id>", methods=["POST"])
 def admin_delete(id):
     # Remove admin
@@ -39,9 +60,9 @@ def admin_delete(id):
     return redirect(url_for("admin.admin_manage"))
 
 
-@admin.route("/add")
-def admin_add_get():
-    return HTML("admin/admin_add.html")
+######################################
+############ Redirections ############
+######################################
 
 
 @admin.route("/add", methods=["POST"])
@@ -69,15 +90,3 @@ def admin_delete_tweets():
     flash("All tweets has been deleted", "error")
 
     return redirect(url_for("admin.admin_settings"))
-
-
-@admin.route("/startstream", methods=["POST"])
-def admin_start_stream():
-    # Starts the streaming
-    stream = streamer_mod.StreamerInit()
-    stream.start()
-
-    # Returns a no content status code
-    # because the user doesn't need to get away
-    # from current page
-    return "", 204

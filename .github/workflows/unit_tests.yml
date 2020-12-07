@@ -13,31 +13,6 @@ jobs:
         uses: actions/setup-python@v1
         with:
           python-version: 3.8
-      - name: Setup Environment variables
-        run: |
-          cat > secret.env << 'EOF'
-          # Postgres SQL settings
-          export DB_USERNAME=test
-          export DB_PASSWORD=test
-          export DB_HOST=www.example.com
-          export DB_NAME=fortweet
-
-          # Twitter API Settings
-          export TWITTER_CONSUMER_KEY="unrel"
-          export TWITTER_CONSUMER_SECRET="unrel"
-          export TWITTER_ACCESS_TOKEN="unrel"
-          export TWITTER_ACCESS_SECRET="unrel"
-
-          # App Settings
-          export SUPER_ADMINS="jdoe@gmail.com, jdoe, jdoe"
-          export STREAM_TIME=20
-          export FILTERS=fortnite
-          export JWT_SECRET="unrel"
-          EOF
-      - name: Run Environment File
-        run: source ./secret.env
-      - name: Test Some Env Variables
-        run: echo My consumer key is $TWITTER_CONSUMER_KEY
       - name: Install dependencies
         run: |
           python3 -m pip install --upgrade pip

@@ -19,3 +19,6 @@ tests/
 
 # Databases
 *.db
+
+# Unused env file
+secret_export.env

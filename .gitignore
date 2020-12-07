@@ -145,3 +145,5 @@ databases/
 
 # Environment secret
 secret.env
+secret_export.env
+

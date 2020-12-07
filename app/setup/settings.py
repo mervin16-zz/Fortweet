@@ -18,7 +18,7 @@ class TwitterSettings:
 
             # Streaming
             self.filters = os.environ["FILTERS"].split(",")
-            self.stream_time = os.environ["STREAM_TIME"]
+            self.stream_time = float(os.environ["STREAM_TIME"])
 
             # Super Admins
             self.super_admin = os.environ["SUPER_ADMINS"].split(",")

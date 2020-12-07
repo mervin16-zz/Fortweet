@@ -27,12 +27,56 @@
 
 <body>
     
-    <div class="container container-md live-container rounded">
-        <div class="live-content-main">
+    <div class="container container-md live-container">
+
+      <!-- The Navigation Bar -->
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="{{url_for('live.live_view')}}">Fortweet</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarText">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item  {% if page == 'live' %} active {% endif %}">
+              <a class="nav-link" href="{{url_for('live.live_view')}}">Live <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item {% if page == 'all' %} active {% endif %}">
+              <a class="nav-link" href="{{url_for('live.all_tweets_redirect')}}">All Tweets</a>
+            </li>
+            <li class="nav-item {% if page == 'stats' %} active {% endif %}">
+              <a class="nav-link" href="{{url_for('live.statistics')}}">Statistics</a>
+            </li>
+            <li class="nav-item {% if page == 'about' %} active {% endif %}">
+              <a class="nav-link" href="{{url_for('live.about')}}">About</a>
+            </li>
+            <li class="nav-item {% if page == 'help' %} active {% endif %}">
+              <a class="nav-link" href="{{url_for('live.help')}}">Help</a>
+            </li>
+          </ul>
+          <span class="navbar-text">
+            <img id="stream-status-ic" width="12px" height="12px"  src="{{ url_for('static', filename='icons/stream-inactive.png') }}" class="mr-2" alt="">
+            <small id="stream-status-text">Live stream inactive</small>
+          </span>
+        </div>
+      </nav>
+
+    
+      <!-- The Main Content -->
+      <div class="live-content-main">
             {% block body %}
 
             {% endblock %}
-        </div>
+      </div>
+
+      <!-- Footer -->
+      <footer class="page-footer bg-dark">
+
+        <!-- Copyright -->
+        <div class="footer-copyright text-center py-3"><small class="text-light">© 2020 Copyright Mervin Hemaraju</small></div>
+        <!-- Copyright -->
+
+      </footer>
+      <!-- Footer -->
     </div>
 
     <!-- Bootstrap, JQuery, Socketio -->
