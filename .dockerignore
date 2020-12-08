@@ -22,3 +22,4 @@ tests/
 
 # Unused env file
 secret_export.env
+secret.env

@@ -31,11 +31,6 @@ def about():
     return HTML("live/about.html", page="about")
 
 
-@live.route("/help")
-def help():
-    return HTML("live/help.html", page="help")
-
-
 ######################################
 ############ Redirections ############
 ######################################

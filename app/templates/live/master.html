@@ -49,9 +49,6 @@
             <li class="nav-item {% if page == 'about' %} active {% endif %}">
               <a class="nav-link" href="{{url_for('live.about')}}">About</a>
             </li>
-            <li class="nav-item {% if page == 'help' %} active {% endif %}">
-              <a class="nav-link" href="{{url_for('live.help')}}">Help</a>
-            </li>
           </ul>
           <span class="navbar-text">
             <img id="stream-status-ic" width="12px" height="12px"  src="{{ url_for('static', filename='icons/stream-inactive.png') }}" class="mr-2" alt="">

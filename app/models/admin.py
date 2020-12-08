@@ -1,5 +1,5 @@
+import app
 import app.setup.database as database
-import app.helpers.utils as utils
 
 
 class AdminModel(database.db.Model):
@@ -7,7 +7,7 @@ class AdminModel(database.db.Model):
 
     id = database.db.Column(database.db.Integer, primary_key=True)
     email = database.db.Column(database.db.String(80))
-    username = database.db.Column(database.db.String(80))
+    username = database.db.Column(database.db.String(80), unique=True)
     password = database.db.Column(database.db.String(80))
 
     def __init__(self, email, username, password):
@@ -33,6 +33,8 @@ class AdminModel(database.db.Model):
         database.db.session.commit()
 
     def insert(self):
+        import app.helpers.utils as utils
+
         admin = self.find_by_username(self.username)
         if admin is None:
             # Hash the password
@@ -41,5 +43,18 @@ class AdminModel(database.db.Model):
             database.db.session.add(self)
             database.db.session.commit()
             return True
+
+        return False
+
+    def login(self):
+        import app.helpers.utils as utils
+
+        admin = self.find_by_username(self.username)
+
+        if admin is not None:
+            if utils.hash(self.password) == admin.password:
+                return True
+
+            return False
 
         return False

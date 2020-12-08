@@ -13,6 +13,11 @@ admin = Blueprint(
 ####################################
 
 
+@admin.route("/login")
+def admin_login():
+    return HTML("admin/login.html")
+
+
 @admin.route("/dashboard")
 def admin_dashboard():
     return HTML("admin/dashboard.html")
@@ -38,6 +43,31 @@ def admin_add_get():
 #####################################
 
 
+@admin.route("/logout")
+def admin_logout():
+
+    flash(f"You've been logged out", "info")
+
+    return redirect(url_for("admin.admin_login"))
+
+
+@admin.route("/loginprocess", methods=["POST"])
+def admin_login_process():
+
+    admin = admin_mod.AdminModel(
+        None, request.form["admin-username"], request.form["admin-password"],
+    )
+
+    success = admin.login()
+
+    if success:
+        return redirect(url_for("admin.admin_dashboard"))
+
+    flash(f"Wrong username or password", "error")
+
+    return redirect(url_for("admin.admin_login"))
+
+
 @admin.route("/startstream", methods=["POST"])
 def admin_start_stream():
     # Starts the streaming
@@ -58,11 +88,6 @@ def admin_delete(id):
     flash(f"Admin removed", "error")
 
     return redirect(url_for("admin.admin_manage"))
-
-
-######################################
-############ Redirections ############
-######################################
 
 
 @admin.route("/add", methods=["POST"])

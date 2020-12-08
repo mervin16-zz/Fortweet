@@ -30,6 +30,7 @@
       /*********************************/
       
       // Socket connection to server
+      //var socket = io.connect('http://104.131.173.145:8083');
       var socket = io.connect('http://localhost:8083');
       var is_streaming = false;
 
