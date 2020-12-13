@@ -27,7 +27,7 @@ $(document).ready(function () {
   //var socket = io.connect('http://104.131.173.145:8083');
 
   // Local
-  var socket = io.connect('http://localhost:8083');
+  var socket = io.connect('http://localhost:33507');
 
   // Heroku
   //var socket = io.connect('https://fortweet.herokuapp.com/');
