@@ -6,4 +6,5 @@ flask-socketio
 pytest
 tweepy
 uWSGI
+gunicorn
 psycopg2
