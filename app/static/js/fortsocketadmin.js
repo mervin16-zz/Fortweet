@@ -34,10 +34,9 @@ $(document).ready(function () {
   //var socket = io.connect('http://104.131.173.145:8083');
 
   // Local
-  const iotrans = io({
+  var socket = io().connect('https://' + document.domain + ':' + location.port, {
     transports: ['websocket']
   });
-  var socket = iotrans.connect('https://' + document.domain + ':' + location.port);
 
   // Heroku
   //var socket = io.connect('https://fortweet.herokuapp.com/');

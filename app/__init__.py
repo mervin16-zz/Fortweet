@@ -53,7 +53,9 @@ def create_app():
     # app.config["SQLALCHEMY_DATABASE_URI"] = f"sqlite:///databases/fortweets.db"
 
     # Heroku
-    app.config["SQLALCHEMY_DATABASE_URI"] = os.environ["DATABASE_URL"]
+    app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get(
+        "DATABASE_URL", f"sqlite:///databases/fortweets.db"
+    )
 
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
     app.config["PROPAGATE_EXCEPTIONS"] = True
