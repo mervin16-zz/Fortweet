@@ -8,4 +8,5 @@ tweepy
 uWSGI
 gunicorn
 gevent
+gevent-websocket
 psycopg2
