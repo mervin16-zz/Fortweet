@@ -7,4 +7,5 @@ pytest
 tweepy
 uWSGI
 gunicorn
+eventlet
 psycopg2
