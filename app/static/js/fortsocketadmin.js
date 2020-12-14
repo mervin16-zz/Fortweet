@@ -34,7 +34,7 @@ $(document).ready(function () {
   //var socket = io.connect('http://104.131.173.145:8083');
 
   // Local
-  var socket = io().connect('https://' + document.domain + ':' + location.port, {
+  var socket = io().connect(window.location.protocol + '//' + document.domain + ':' + location.port, {
     transports: ['websocket']
   });
 
